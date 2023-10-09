@@ -4,8 +4,8 @@
 	<div class="card card-outline card-primary">
 		<div class="card-body">
 			<div class="d-flex w-100 px-1 py-2 justify-content-center align-items-center">
-			<?php 
-			$status_arr = array("Files To Confirm","Sent","Received","Denied"); ?>
+				<input type="hidden" id="id" value="<?php echo $_SESSION['login_id'] ?>">
+				<?php $status_arr = array("Sent","Received","Denied"); ?>
 				<label for="date_from" class="mx-1">Status</label>
 				<select name="" id="status" class="custom-select custom-select-sm col-sm-3">
 					<option value="all" <?php echo $status == 'all' ? "selected" :'' ?>>All</option>
@@ -38,7 +38,7 @@
 								<th>Date</th>
 								<th>Sender</th>
 								<th>Recepient</th>
-								<th>Amount</th>
+								<th>Document Type</th>
 								<th>Status</th>
 							</tr>
 						</thead>
@@ -77,10 +77,11 @@
 		var date_from = $('#date_from').val()
 		var date_to = $('#date_to').val()
 		var status = $('#status').val()
+		var id = $('#id').val()
 			$.ajax({
 				url:'ajax.php?action=get_report',
 				method:'POST',
-				data:{status:status,date_from:date_from,date_to:date_to},
+				data:{id:id,status:status,date_from:date_from,date_to:date_to},
 				error:err=>{
 					console.log(err)
 					alert_toast("An error occured",'error')
@@ -98,7 +99,7 @@
 								tr.append('<td>'+(resp[k].date_created)+'</td>')
 								tr.append('<td>'+(resp[k].sender_name)+'</td>')
 								tr.append('<td>'+(resp[k].recipient_name)+'</td>')
-								tr.append('<td>'+(resp[k].price)+'</td>')
+								tr.append('<td>'+(resp[k].doc_type)+'</td>')
 								tr.append('<td>'+(resp[k].status)+'</td>')
 								$('#report-list tbody').append(tr)
 							})

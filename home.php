@@ -46,7 +46,7 @@ if($_SESSION['login_type'] != 1)
           <hr>
           <?php 
               // $status_arr = array("Item Accepted by Courier","Collected","Shipped","In-Transit","Arrived At Destination","Out for Delivery","Ready to Pickup","Delivered","Picked-up","Unsuccessfull Delivery Attempt");
-              $status_arr = array("Files To Confirm","Sent","Received", "Denied");
+              $status_arr = array("Sent","Received", "Denied");
                foreach($status_arr as $k =>$v):
           ?>
           <div class="col-12 col-sm-6 col-md-4">

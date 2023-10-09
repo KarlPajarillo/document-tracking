@@ -365,13 +365,6 @@ Class Action {
 		if($update && $save)
 			return 1;  
 	}
-	function deny_resend_parcel(){
-		extract($_POST);
-		$update = $this->db->query("UPDATE parcels set dlt= $dlt where id = $id");
-		$save = $this->db->query("INSERT INTO parcel_tracks set status= '4' , parcel_id = $id");
-		if($update && $save)
-			return 1;  
-	}
 	function get_user_data(){
 		extract($_GET);
 		$user = $this->db->query("SELECT * FROM users  where id = $id");
@@ -406,10 +399,13 @@ Class Action {
 			$parcel = $parcel->fetch_array();
 			// $data[] = array('status'=>'Files To Confirm','date_created'=>date("M d, Y h:i A",strtotime($parcel['date_created'])));
 			$history = $this->db->query("SELECT * FROM parcel_tracks where parcel_id = {$parcel['id']}");
-			$status_arr = array("Files To Confirm","Sent","Received", "Denied");
+			$status_arr = array("Sent","Received", "Denied");
 			while($row = $history->fetch_assoc()){
 				$row['date_created'] = date("M d, Y h:i A",strtotime($row['date_created']));
 				$row['status'] = $status_arr[$row['status']];
+				$row['sender'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['sender_name']}")->fetch_array()['name'];
+				$row['recipient'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['recipient_name']}")->fetch_array()['name'];
+				$row['doc_type'] = $this->db->query("SELECT doc_name FROM documents where id = {$parcel['doc_type']}")->fetch_array()['doc_name'];
 				$data[] = $row;
 			}
 			return json_encode($data);
@@ -418,13 +414,17 @@ Class Action {
 	function get_report(){
 		extract($_POST);
 		$data = array();
-		$get = $this->db->query("SELECT * FROM parcels where date(date_created) BETWEEN '$date_from' and '$date_to' ".($status != 'all' ? " and status = $status " : "")." order by unix_timestamp(date_created) asc");
-		$status_arr = array("Files To Confirm","Sent","Received", "Denied");
+		$check_id = ( $id == 1 ? "" : "(sender_name = $id OR recipient_name =$id) and");
+		$get = $this->db->query("SELECT * FROM parcels where $check_id
+			date(date_created) BETWEEN '$date_from' and '$date_to' ".($status != 'all' ? " and status = $status " : "")."
+			order by unix_timestamp(date_created) asc");
+		$status_arr = array("Sent","Received", "Denied");
 		while($row=$get->fetch_assoc()){
-			$row['sender_name'] = ucwords($row['sender_name']);
-			$row['recipient_name'] = ucwords($row['recipient_name']);
+			$row['sender_name'] = ucwords($this->db->query("SELECT concat(firstname, ' ' , lastname) as name FROM users where id = {$row['sender_name']}")->fetch_array()['name']);
+			$row['recipient_name'] = ucwords($this->db->query("SELECT concat(firstname, ' ' , lastname) as name FROM users where id = {$row['recipient_name']}")->fetch_array()['name']);
 			$row['date_created'] = date("M d, Y",strtotime($row['date_created']));
 			$row['status'] = $status_arr[$row['status']];
+			$row['doc_type'] = ucwords($this->db->query("SELECT doc_name FROM documents where id = {$row['doc_type']}")->fetch_array()['doc_name']);
 			// $row['price'] = number_format($row['price'],2);
 			$data[] = $row;
 		}

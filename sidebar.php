@@ -107,7 +107,7 @@
                 </a>
               </li>
               <?php 
-              $status_arr = array("Files To Confirm", "Files Sent","Files Received", "Files Denied");
+              $status_arr = array("Files Sent","Files Received","Files Denied");
               foreach($status_arr as $k =>$v):
               ?>
               <li class="nav-item">

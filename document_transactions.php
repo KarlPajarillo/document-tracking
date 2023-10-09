@@ -39,9 +39,10 @@
 							$where = " where ";
 						else
 							$where .= " and ";
-						$where .= " (from_branch_id = {$_SESSION['login_branch_id']} or to_branch_id = {$_SESSION['login_branch_id']}) ";
+						// $where .= " (from_branch_id = {$_SESSION['login_branch_id']} or to_branch_id = {$_SESSION['login_branch_id']}) ";
+						$where .= " (sender_name = {$_SESSION['login_id']} or recipient_name = {$_SESSION['login_id']}) ";
 					}
-					$qry = $conn->query("SELECT * from parcels $where and dlt = 1 order by  unix_timestamp(date_created) desc ");
+					$qry = $conn->query("SELECT * from parcels $where order by  unix_timestamp(date_created) desc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>
@@ -54,15 +55,15 @@
 						<td class="text-center">
 							<?php 
 							switch ($row['status']) {
+								case '0':
+									echo "<span class='badge badge-pill badge-primary'> Sent</span>";
+									break;
 								case '1':
-									echo "<span class='badge badge-pill badge-info'> Sent</span>";
+									echo "<span class='badge badge-pill badge-success'> Received</span>";
 									break;
 								case '2':
-									echo "<span class='badge badge-pill badge-info'> Received</span>";
+									echo "<span class='badge badge-pill badge-danger'> Denied</span>";
 									break;
-								// case '3':
-								// 	echo "<span class='badge badge-pill badge-primary'> In-Transit</span>";
-								// 	break;
 								// case '4':
 								// 	echo "<span class='badge badge-pill badge-primary'> Arrived At Destination</span>";
 								// 	break;
@@ -82,40 +83,66 @@
 								// 	echo "<span class='badge badge-pill badge-danger'> Unsuccessfull Delivery Attempt</span>";
 								// 	break;
 								
-								default:
-									echo "<span class='badge badge-pill badge-info'> Files To Confirm</span>";
+								// default:
+								// 	echo "<span class='badge badge-pill badge-info'> Files To Confirm</span>";
 									
-									break;
+								// 	break;
 							}
 
 							?>
 						</td>
 						<?php 
-							if ($_SESSION['login_id'] != $row['recipient_name'] ){
-								echo '<td class="text-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
-											<i class="fas fa-eye"></i>
-											</button>
-											<a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
-											<i class="fas fa-edit"></i>
-											</a>
-											<button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
-											<i class="fas fa-trash"></i>
-											</button>
-										</div>
-									</td>';
+							if ($_SESSION['login_id'] != $row['recipient_name']){
+								if($row['status'] == 2 && $_SESSION['login_id'] == $row['sender_name']){
+									echo '<td class="text-center">
+											<div class="btn-group">
+												<button type="button" class="btn btn-success btn-flat resend_parcel" data-id="'.$row['id'].'">
+													Resend
+												</button>
+												<a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
+												<i class="fas fa-edit"></i>
+												</a>
+												<button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-trash"></i>
+												</button>
+											</div>
+										</td>';
+								} else {
+									echo '<td class="text-center">
+											<div class="btn-group">
+												<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-eye"></i>
+												</button>
+												<a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
+												<i class="fas fa-edit"></i>
+												</a>
+												<button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-trash"></i>
+												</button>
+											</div>
+										</td>';
+								}
 							} else {
-								echo '<td class="text-center">
+								if($row['status'] == 0){
+									echo '<td class="text-center">
 										<div class="btn-group">
 											<button type="button" class="btn btn-success btn-flat confirm_parcel" data-id="'.$row['id'].'">
 												Confirm
 											</button>
-											<button type="button" class="btn btn-danger btn-flat deny_resend_parcel" data-id="'.$row['id'].'">
+											<button type="button" class="btn btn-danger btn-flat deny_parcel" data-id="'.$row['id'].'">
 												Deny
 											</button>
 										</div>
 									</td>';
+								} else {
+									echo '<td class="text-center">
+										<div class="btn-group">
+											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
+											<i class="fas fa-eye"></i>
+											</button>
+										</div>
+									</td>';
+								}
 							}
 
 						?>
@@ -144,8 +171,12 @@
 	$('.confirm_parcel').click(function(){
 	_conf("Are you sure to confirm this parcel?","confirm_parcel",[$(this).attr('data-id')])
 	})
-	$('.deny_resend_parcel').click(function(){
-	_conf("Are you sure to deny this parcel?","deny_resend_parcel",[$(this).attr('data-id')])
+	$('.deny_parcel').click(function(){
+	_conf("Are you sure to deny this parcel?","deny_parcel",[$(this).attr('data-id')])
+	})
+	
+	$('.resend_parcel').click(function(){
+	_conf("Are you sure to resend this parcel?","resend_parcel",[$(this).attr('data-id')])
 	})
 	})
 	function delete_parcel($id){
@@ -177,7 +208,7 @@
 				},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("Data successfully received",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
@@ -187,19 +218,39 @@
 		})
 	}
 
-	function deny_resend_parcel($id){
+	function deny_parcel($id){
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=deny_resend_parcel',
+			url:'ajax.php?action=update_parcel',
 			method:'POST',
 			data:{
 				id:$id,
-				status:4,
-				dlt:0
+				status:2
 				},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("Data successfully denied",'success')
+					setTimeout(function(){
+						location.reload()
+					},1500)
+
+				}
+			}
+		})
+	}
+
+	function resend_parcel($id){
+		start_load()
+		$.ajax({
+			url:'ajax.php?action=update_parcel',
+			method:'POST',
+			data:{
+				id:$id,
+				status:0
+				},
+			success:function(resp){
+				if(resp==1){
+					alert_toast("Data successfully send",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

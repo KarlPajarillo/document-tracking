@@ -25,11 +25,11 @@
 </div>
 <div id="clone_timeline-item" class="d-none">
 	<div class="iitem">
-	    <i class="fas fa-box bg-blue"></i>
+	    <i class="fas fa-box" id='track-icon'></i>
 	    <div class="timeline-item">
 	      <span class="time"><i class="fas fa-clock"></i> <span class="dtime">12:05</span></span>
 	      <div class="timeline-body">
-	      	asdasd
+			asdasd
 	      </div>
 	    </div>
 	  </div>
@@ -59,7 +59,12 @@
 							Object.keys(resp).map(function(k){
 								var tl = $('#clone_timeline-item .iitem').clone()
 								tl.find('.dtime').text(resp[k].date_created)
-								tl.find('.timeline-body').text(resp[k].status)
+								if(resp[k].status == 'Sent'){
+									tl.find('.timeline-body').html('<b>'+resp[k].sender+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+')</em> to <b>'+resp[k].recipient+'</b>')
+								} else {
+									tl.find('.timeline-body').html('<b>'+resp[k].recipient+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+')</em> from <b>'+resp[k].sender+'</b>')
+								}
+								tl.find('#track-icon').addClass(resp[k].status == 'Sent' ? 'bg-blue' : (resp[k].status == 'Received' ? 'bg-green' : 'bg-red'))
 								$('#parcel_history').append(tl)
 							})
 						}

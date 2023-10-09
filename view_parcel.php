@@ -19,10 +19,16 @@ $branch = array();
 		<div class="row">
 			<div class="col-md-12">
 				<div class="callout callout-info">
-					<dl>
-						<dt>Tracking Number:</dt>
-						<dd> <h4><b><?php echo $reference_number ?></b></h4></dd>
-					</dl>
+					<div>
+						<dl>
+							<dt>Tracking Number:</dt>
+							<dd> <h4><b><?php echo $reference_number ?></b></h4></dd>
+						</dl>
+						<dl>
+							<dd><b>Date Created: </b><?php echo date("M jS, Y h:i a", strtotime($date_created)) ?></dd>
+							<dd><b>Date Updated: </b><?php echo date("M jS, Y h:i a", strtotime($date_updated)) ?></dd>
+						</dl>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -71,15 +77,15 @@ $branch = array();
 								<dd>
 									<?php 
 									switch ($status) {
-										case '1':
+										case '0':
 											echo "<span class='badge badge-pill badge-info'> Sent</span>";
 											break;
-										case '2':
-											echo "<span class='badge badge-pill badge-info'> Received</span>";
+										case '1':
+											echo "<span class='badge badge-pill badge-primary'> Received</span>";
 											break;
-										// case '3':
-										// 	echo "<span class='badge badge-pill badge-primary'> In-Transit</span>";
-										// 	break;
+										case '2':
+											echo "<span class='badge badge-pill badge-danger'> Denied</span>";
+											break;
 										// case '4':
 										// 	echo "<span class='badge badge-pill badge-primary'> Arrived At Destination</span>";
 										// 	break;
@@ -99,10 +105,10 @@ $branch = array();
 										// 	echo "<span class='badge badge-pill badge-danger'> Unsuccessfull Delivery Attempt</span>";
 										// 	break;
 										
-										default:
-											echo "<span class='badge badge-pill badge-info'> Files To Confirm</span>";
+										// default:
+										// 	echo "<span class='badge badge-pill badge-info'> Files To Confirm</span>";
 											
-											break;
+										// 	break;
 									}
 
 									?>

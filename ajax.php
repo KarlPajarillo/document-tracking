@@ -81,11 +81,6 @@ if($action == 'delete_parcel'){
 	if($save)
 		echo $save;
 }
-if($action == 'deny_resend_parcel'){
-	$save = $crud->deny_resend_parcel();
-	if($save)
-		echo $save;
-}
 if($action == 'update_parcel'){
 	$save = $crud->update_parcel();
 	if($save)
