@@ -123,7 +123,7 @@
             <a href="./index.php?page=track" class="nav-link nav-track">
               <i class="nav-icon fas fa-search"></i>
               <p>
-                Track Parcel
+                Track Document
               </p>
             </a>
           </li>  
