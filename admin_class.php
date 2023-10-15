@@ -407,6 +407,7 @@ Class Action {
 				$row['sender'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['sender_name']}")->fetch_array()['name'];
 				$row['recipient'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['recipient_name']}")->fetch_array()['name'];
 				$row['doc_type'] = $this->db->query("SELECT doc_name FROM documents where id = {$parcel['doc_type']}")->fetch_array()['doc_name'];
+				$row['remarks'] = $parcel['remarks'];
 				$data[] = $row;
 			}
 			return json_encode($data);

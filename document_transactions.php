@@ -193,7 +193,7 @@
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("Transaction successfully deleted",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
@@ -214,7 +214,7 @@
 				},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully received",'success')
+					alert_toast("Document successfully received",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
@@ -235,7 +235,7 @@
 				},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully denied",'success')
+					alert_toast("Document successfully denied",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
@@ -256,7 +256,7 @@
 				},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully send",'success')
+					alert_toast("Document successfully sent",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

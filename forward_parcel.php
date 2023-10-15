@@ -180,7 +180,7 @@ $branch = array();
 		    type: 'POST',
 			success:function(resp){
         if(resp == 1){
-            alert_toast('Data successfully saved',"success");
+            alert_toast('Document successfully sent',"success");
             setTimeout(function(){
               location.href = 'index.php?page=document_transactions';
             },2000)
