@@ -339,12 +339,13 @@ Class Action {
 				$data .= ", reference_number='$ref' ";
 				if($save[] = $this->db->query("INSERT INTO parcels set $data"))
 					$ids[]= $this->db->insert_id;
+					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 			}else{
 				if($save[] = $this->db->query("UPDATE parcels set $data where id = $id"))
 					$ids[] = $id;
+					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$id);
 			}
 		// }
-		$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 
 		if(isset($save) && isset($ids) && $save_tracks){
 			// return json_encode(array('ids'=>$ids,'status'=>1));

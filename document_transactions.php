@@ -137,8 +137,11 @@
 								} else {
 									echo '<td class="text-center">
 										<div class="btn-group">
+											<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-share"></i>
+											</button>
 											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
-											<i class="fas fa-eye"></i>
+												<i class="fas fa-eye"></i>
 											</button>
 										</div>
 									</td>';
@@ -165,20 +168,23 @@
 		$('.view_parcel').click(function(){
 			uni_modal("Parcel's Details","view_parcel.php?id="+$(this).attr('data-id'),"large")
 		})
-	$('.delete_parcel').click(function(){
-	_conf("Are you sure to delete this parcel?","delete_parcel",[$(this).attr('data-id')])
+		$('.forward_parcel').click(function(){
+			uni_modal("Send this to","forward_parcel.php?id="+$(this).attr('data-id'),"large")
+		})
+		$('.delete_parcel').click(function(){
+			_conf("Are you sure to delete this parcel?","delete_parcel",[$(this).attr('data-id')])
+		})
+		$('.confirm_parcel').click(function(){
+			_conf("Are you sure to confirm this parcel?","confirm_parcel",[$(this).attr('data-id')])
+		})
+		$('.deny_parcel').click(function(){
+			_conf("Are you sure to deny this parcel?","deny_parcel",[$(this).attr('data-id')])
+		})
+		$('.resend_parcel').click(function(){
+			_conf("Are you sure to resend this parcel?","resend_parcel",[$(this).attr('data-id')])
+		})
 	})
-	$('.confirm_parcel').click(function(){
-	_conf("Are you sure to confirm this parcel?","confirm_parcel",[$(this).attr('data-id')])
-	})
-	$('.deny_parcel').click(function(){
-	_conf("Are you sure to deny this parcel?","deny_parcel",[$(this).attr('data-id')])
-	})
-	
-	$('.resend_parcel').click(function(){
-	_conf("Are you sure to resend this parcel?","resend_parcel",[$(this).attr('data-id')])
-	})
-	})
+
 	function delete_parcel($id){
 		start_load()
 		$.ajax({

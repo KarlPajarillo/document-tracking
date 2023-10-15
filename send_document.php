@@ -136,7 +136,7 @@
           }
     });
 
-});
+  });
     $('[name="price[]"]').keyup(function(){
       calc()
     })
