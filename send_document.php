@@ -21,6 +21,7 @@
                 <label for="" class="control-label">Name</label>
                     <input type="text" name="dummy_name" id="dummy_name" class="form-control form-control-lm" value="<?php echo $urow['firstname'].' '.$urow['lastname'] ?>" disabled>
                     <input type="hidden" name="sender_name" id="sender_name" class="form-control form-control-sm" value="<?php echo $_SESSION['login_id']?>" required>
+                    <input type="hidden" name="created_by" id="created_by" class="form-control form-control-sm" value="<?php echo $_SESSION['login_id']?>" required>
               </div>
               <div class="form-group">
                 <label for="" class="control-label">Department/Office</label>         

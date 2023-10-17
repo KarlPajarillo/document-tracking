@@ -5,7 +5,7 @@
 			<div class="d-flex w-100 px-1 py-2 justify-content-center align-items-center">
 				<label for="">Enter Tracking Number</label>
 				<div class="input-group col-sm-5">
-                    <input type="search" id="ref_no" class="form-control form-control-sm" placeholder="Type the tracking number here">
+                    <input type="search" id="ref_no" value="<?php echo isset($_GET['rnum']) ? $_GET['rnum'] : '' ?>" class="form-control form-control-sm" placeholder="Type the tracking number here">
                     <div class="input-group-append">
                         <button type="button" id="track-btn" class="btn btn-sm btn-primary btn-gradient-primary">
                             <i class="fa fa-search"></i>
@@ -35,6 +35,10 @@
 	  </div>
 </div>
 <script>
+	$(document).ready(function () {
+	if($('#ref_no').val()){
+		track_now()
+	}})
 	function track_now(){
 		start_load()
 		var tracking_num = $('#ref_no').val()
