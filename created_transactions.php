@@ -40,7 +40,7 @@
 						else
 							$where .= " and ";
 						// $where .= " (from_branch_id = {$_SESSION['login_branch_id']} or to_branch_id = {$_SESSION['login_branch_id']}) ";
-						$where .= " (sender_name = {$_SESSION['login_id']} or recipient_name = {$_SESSION['login_id']}) ";
+						$where .= " (created_by = {$_SESSION['login_id']}) ";
 					}
 					$qry = $conn->query("SELECT * from parcels $where order by  unix_timestamp(date_created) desc ");
 					while($row= $qry->fetch_assoc()):
@@ -92,62 +92,22 @@
 							?>
 						</td>
 						<?php 
-							if ($_SESSION['login_id'] != $row['recipient_name']){
-								if($row['status'] == 2 && $_SESSION['login_id'] == $row['sender_name']){
-									echo '<td class="text-center">
-											<div class="btn-group">
-												<button type="button" class="btn btn-success btn-flat resend_parcel" data-id="'.$row['id'].'">
-													Resend
-												</button>
-												<!-- <a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
-												<i class="fas fa-edit"></i>
-												</a>
-												<button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-trash"></i>
-												</button> -->
-											</div>
-										</td>';
-								} else {
-									echo '<td class="text-center">
-											<div class="btn-group">
-												<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-eye"></i>
-												</button>
-												<!-- <a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
-												<i class="fas fa-edit"></i>
-												</a>
-												<button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-trash"></i>
-												</button> -->
-											</div>
-										</td>';
-								}
-							} else {
-								if($row['status'] == 0){
-									echo '<td class="text-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-success btn-flat confirm_parcel" data-id="'.$row['id'].'">
-												Confirm
-											</button>
-											<button type="button" class="btn btn-danger btn-flat deny_parcel" data-id="'.$row['id'].'">
-												Deny
-											</button>
-										</div>
-									</td>';
-								} else {
-									echo '<td class="text-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-share"></i>
-											</button>
-											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-eye"></i>
-											</button>
-										</div>
-									</td>';
-								}
-							}
-
+							echo '<td class="text-center">
+                                <div class="btn-group">
+                                    <a href="index.php?page=track&rnum='.$row['reference_number'].'" class="btn btn-dark btn-flat ">
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <a href="index.php?page=edit_transaction&id='.$row['id'].'" class="btn btn-primary btn-flat ">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-flat delete_parcel" data-id="'.$row['id'].'">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>';
 						?>
 						
 					</tr>	

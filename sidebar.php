@@ -110,13 +110,21 @@
               $status_arr = array("Files Sent","Files Received","Files Denied");
               foreach($status_arr as $k =>$v):
               ?>
-              <li class="nav-item">
-                <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="nav-link nav-document_transactions_<?php echo $k ?> tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p><?php echo $v ?></p>
-                </a>
-              </li>
-            <?php endforeach; ?>
+                <li class="nav-item">
+                  <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="nav-link nav-document_transactions_<?php echo $k ?> tree-item">
+                    <i class="fas fa-angle-right nav-icon"></i>
+                    <p><?php echo $v ?></p>
+                  </a>
+                </li>
+              <?php endforeach; ?>
+              <?php if($_SESSION['login_type'] == 2): ?>
+                <li class="nav-item">
+                  <a href="./index.php?page=created_transactions" class="nav-link nav-created_transactions tree-item">
+                    <i class="fas fa-angle-right nav-icon"></i>
+                    <p>Created Transactions</p>
+                  </a>
+                </li>
+              <?php endif; ?>
             </ul>
           </li>
            <li class="nav-item dropdown">

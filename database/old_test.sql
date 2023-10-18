@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2023 at 08:35 AM
+-- Generation Time: Oct 09, 2023 at 07:59 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -72,7 +72,6 @@ INSERT INTO `documents` (`id`, `doc_name`, `date_created`) VALUES
 CREATE TABLE `parcels` (
   `id` int(30) NOT NULL,
   `reference_number` varchar(100) NOT NULL,
-  `created_by` varchar(30) NOT NULL,
   `sender_name` text NOT NULL,
   `sender_address` text NOT NULL,
   `sender_contact` text NOT NULL,
@@ -84,22 +83,10 @@ CREATE TABLE `parcels` (
   `to_branch_id` varchar(30) NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `status` int(2) NOT NULL DEFAULT 0,
+  `dlt` int(1) NOT NULL DEFAULT 1,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `parcels`
---
-
-INSERT INTO `parcels` (`id`, `reference_number`, `created_by`, `sender_name`, `sender_address`, `sender_contact`, `recipient_name`, `recipient_address`, `recipient_contact`, `doc_type`, `from_branch_id`, `to_branch_id`, `remarks`, `status`, `date_created`, `date_updated`) VALUES
-(2, '202310091M6TK3J', '5', '5', '', '09823235345', '4', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 0, '2023-10-09 23:02:57', '2023-10-17 20:21:42'),
-(3, '202310090NV1G5R', '2', '2', '', '09456258490', '3', '', '09456258490', '1', '3', '2', 'Signature for DTR', 0, '2023-10-09 23:03:12', '2023-10-17 19:32:41'),
-(4, '202310106OP5CMJ', '5', '5', '', '09823235345', '4', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 1, '2023-10-10 02:01:40', '2023-10-17 19:34:53'),
-(5, '20231010V2IBNGC', '4', '4', '', '0912354634542', '3', '', '09456258490', '1', '1', '2', 'Signature for DTR', 0, '2023-10-10 02:01:57', '2023-10-17 19:35:44'),
-(6, '20231010L8AF19P', '4', '4', '', '0912354634542', '5', '', '09823235345', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:02:14', '2023-10-17 20:48:09'),
-(7, '202310102V5C17R', '4', '4', '', '0912354634542', '5', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:07:59', '2023-10-17 20:48:04'),
-(8, '202310108LNCUGH', '4', '4', '', '0912354634542', '2', '', '09456258490', '1', '1', '3', 'Signature for DTR', 1, '2023-10-10 02:08:13', '2023-10-17 19:35:08');
 
 -- --------------------------------------------------------
 
@@ -113,43 +100,6 @@ CREATE TABLE `parcel_tracks` (
   `status` int(2) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `parcel_tracks`
---
-
-INSERT INTO `parcel_tracks` (`id`, `parcel_id`, `status`, `date_created`) VALUES
-(33, 1, 0, '2023-10-09 23:02:05'),
-(34, 2, 0, '2023-10-09 23:02:57'),
-(35, 3, 0, '2023-10-09 23:03:12'),
-(36, 2, 1, '2023-10-10 00:19:29'),
-(38, 1, 2, '2023-10-10 01:08:28'),
-(39, 4, 0, '2023-10-10 02:01:40'),
-(40, 5, 0, '2023-10-10 02:01:57'),
-(41, 6, 0, '2023-10-10 02:02:14'),
-(42, 7, 0, '2023-10-10 02:07:59'),
-(43, 8, 0, '2023-10-10 02:08:13'),
-(44, 4, 1, '2023-10-10 02:08:58'),
-(45, 7, 1, '2023-10-10 02:10:01'),
-(46, 1, 0, '2023-10-10 03:53:36'),
-(47, 1, 1, '2023-10-10 03:54:20'),
-(48, 7, 0, '2023-10-16 01:15:40'),
-(49, 8, 1, '2023-10-16 01:30:34'),
-(50, 4, 0, '2023-10-16 01:39:34'),
-(51, 4, 1, '2023-10-16 01:40:19'),
-(52, 4, 0, '2023-10-16 01:41:07'),
-(53, 4, 2, '2023-10-16 01:41:30'),
-(54, 4, 0, '2023-10-16 01:42:40'),
-(55, 4, 1, '2023-10-16 01:43:07'),
-(56, 4, 0, '2023-10-16 01:56:58'),
-(57, 4, 1, '2023-10-16 01:57:21'),
-(58, 4, 0, '2023-10-16 02:09:27'),
-(59, 4, 1, '2023-10-16 02:10:37'),
-(60, 4, 0, '2023-10-16 02:12:03'),
-(61, 4, 1, '2023-10-16 02:12:21'),
-(62, 2, 0, '2023-10-17 19:29:57'),
-(63, 7, 2, '2023-10-17 20:48:04'),
-(64, 6, 2, '2023-10-17 20:48:09');
 
 -- --------------------------------------------------------
 
@@ -262,13 +212,13 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT for table `parcels`
 --
 ALTER TABLE `parcels`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `parcel_tracks`
 --
 ALTER TABLE `parcel_tracks`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
