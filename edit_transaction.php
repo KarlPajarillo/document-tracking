@@ -4,7 +4,6 @@ $qry = $conn->query("SELECT * FROM parcels where id = ".$_GET['id'])->fetch_arra
 foreach($qry as $k => $v){
 	$$k = $v;
 }
-// include 'send_document.php';
 
 ?>
 <style>
