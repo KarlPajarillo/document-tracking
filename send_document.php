@@ -8,7 +8,7 @@
 	<div class="card card-outline card-primary">
 		<div class="card-body">
 			<form action="" id="manage-parcel">
-        <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
+        <!-- <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>"> -->
         <div id="msg" class=""></div>
         <div class="row">
           <div class="col-md-6">
