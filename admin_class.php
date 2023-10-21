@@ -348,8 +348,8 @@ Class Action {
 		// }
 
 		if(isset($save) && isset($ids) && $save_tracks){
-			// return json_encode(array('ids'=>$ids,'status'=>1));
-			return 1;
+			return json_encode(array('ids'=>$ids,'status'=>$data));
+			// return 1;
 		}
 	}
 	function delete_parcel(){
