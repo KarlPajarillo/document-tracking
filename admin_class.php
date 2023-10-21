@@ -353,9 +353,9 @@ Class Action {
 		// }
 
 		if(isset($save) && isset($ids) && $save_tracks){
-			throw new Exception('Database error! Error Code');
-			return json_encode(array('ids'=>$ids,'status'=>$data));
-			// return 1;
+			// throw new Exception('Database error! Error Code');
+			// return json_encode(array('ids'=>$ids,'status'=>$data));
+			return 1;
 		}
 	}
 	function delete_parcel(){
