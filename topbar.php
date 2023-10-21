@@ -1,4 +1,4 @@
-<?php include'db_connect.php' ?>
+<?php include 'db_connect.php' ?>
 
 <!-- Navbar -->
   <nav class=" main-header docu-header navbar navbar-expand navbar-primary navbar-dark " style="background: #0d2ddc;">
@@ -30,8 +30,8 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="account_settings" style="left: -2.5em;">
           <?php 
-            $qry = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ");
-            while($row= $qry->fetch_assoc()):
+            // $qry = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ");
+            // while($row= $qry->fetch_assoc()):
           ?>
             <a class="dropdown-item" href="" id=""> <?php echo $_SESSION['login_id'] ?></a>
             <a class="dropdown-item" href="" id=""> notif2</a>
@@ -39,7 +39,7 @@
             <a class="dropdown-item" href="" id=""> notif4</a>
             <a class="dropdown-item" href="" id=""> notif5</a>
           <?php 
-            endwhile; 
+            // endwhile; 
           ?>
         </div>
       </li>
