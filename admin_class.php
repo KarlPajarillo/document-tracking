@@ -336,8 +336,8 @@ Class Action {
 						$i = 1;
 					}
 				}
-				$data .= ", reference_number='$ref' ";
-				if($save[] = $this->db->query("INSERT INTO parcels set $data, status='0' "))
+				$data .= ", reference_number='$ref', status = '0' ";
+				if($save[] = $this->db->query("INSERT INTO parcels set $data"))
 					$ids[]= $this->db->insert_id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 			}else{
@@ -348,8 +348,8 @@ Class Action {
 		// }
 
 		if(isset($save) && isset($ids) && $save_tracks){
-			return json_encode(array('ids'=>$ids,'status'=>$data));
-			// return 1;
+			// return json_encode(array('ids'=>$ids,'status'=>$data));
+			return 1;
 		}
 	}
 	function delete_parcel(){
