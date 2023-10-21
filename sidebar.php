@@ -4,7 +4,7 @@
         <?php if($_SESSION['login_type'] == 1): ?>
         <h3 class="text-center p-0 m-0"><b>ADMIN</b></h3>
         <?php else: ?>
-        <h3 class="text-center p-0 m-0"><b>STAFF</b></h3>
+        <h3 class="text-center p-0 m-0"><b>DOCU-TRACK</b></h3>
         <?php endif; ?>
 
     </a>
@@ -110,7 +110,7 @@
               $status_arr = array("Files Sent","Files Received","Files Denied");
               foreach($status_arr as $k =>$v):
               ?>
-                <li class="nav-item">
+              <li class="nav-item">
                   <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="nav-link nav-document_transactions_<?php echo $k ?> tree-item">
                     <i class="fas fa-angle-right nav-icon"></i>
                     <p><?php echo $v ?></p>
@@ -131,7 +131,7 @@
             <a href="./index.php?page=track" class="nav-link nav-track">
               <i class="nav-icon fas fa-search"></i>
               <p>
-                Track Document
+                Track Document 
               </p>
             </a>
           </li>  
@@ -165,5 +165,6 @@
 
   		}
      
+      
   	})
   </script>
