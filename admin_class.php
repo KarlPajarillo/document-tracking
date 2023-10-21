@@ -337,7 +337,7 @@ Class Action {
 					}
 				}
 				$data .= ", reference_number='$ref' ";
-				if($save[] = $this->db->query("INSERT INTO parcels set $data"))
+				if($save[] = $this->db->query("INSERT INTO parcels set $data, status='0' "))
 					$ids[]= $this->db->insert_id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 			}else{
