@@ -344,11 +344,11 @@ Class Action {
 						return false; // unreachable retrun statement !!!
 					}
 					$ids[]= $this->db->insert_id;
-					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
+					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0', sender_id = '{$sender_name}', receiver_id = '{$recipient_name}', parcel_id = ".$this->db->insert_id);
 			}else{
 				if($save[] = $this->db->query("UPDATE parcels set $data where id = $id"))
 					$ids[] = $id;
-					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$id);
+					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0', sender_id = '{$sender_name}', receiver_id = '{$recipient_name}' , parcel_id = ".$id);
 			}
 		// }
 
@@ -368,7 +368,8 @@ Class Action {
 	function update_parcel(){
 		extract($_POST);
 		$update = $this->db->query("UPDATE parcels set status= $status where id = $id");
-		$save = $this->db->query("INSERT INTO parcel_tracks set status= $status , parcel_id = $id");
+		$get_parcel = $this->db->query("SELECT sender_name, recipient_name FROM parcels where id = $id")->fetch_array();
+		$save = $this->db->query("INSERT INTO parcel_tracks set status= $status, sender_id=".$get_parcel['sender_name'].", receiver_id=".$get_parcel['recipient_name'].", parcel_id = $id");
 		if($update && $save)
 			return 1;  
 	}
@@ -410,8 +411,8 @@ Class Action {
 			while($row = $history->fetch_assoc()){
 				$row['date_created'] = date("M d, Y h:i A",strtotime($row['date_created']));
 				$row['status'] = $status_arr[$row['status']];
-				$row['sender'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['sender_name']}")->fetch_array()['name'];
-				$row['recipient'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = {$parcel['recipient_name']}")->fetch_array()['name'];
+				$row['sender'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = ".$row['sender_id'])->fetch_array()['name'];
+				$row['recipient'] = $this->db->query("SELECT concat(firstname , ' ' , lastname) as name FROM users where id = ".$row['receiver_id'])->fetch_array()['name'];
 				$row['doc_type'] = $this->db->query("SELECT doc_name FROM documents where id = {$parcel['doc_type']}")->fetch_array()['doc_name'];
 				$row['remarks'] = $parcel['remarks'];
 				$data[] = $row;
