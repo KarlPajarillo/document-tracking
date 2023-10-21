@@ -351,6 +351,8 @@ Class Action {
 		if(isset($save) && isset($ids) && $save_tracks){
 			// return json_encode(array('ids'=>$ids,'status'=>1));
 			return 1;
+		} else{
+			return json_encode(array('save'=>$save, 'ids'=>$ids, 'save_tracks'=>$save_tracks));
 		}
 	}
 	function delete_parcel(){
