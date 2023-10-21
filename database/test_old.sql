@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2023 at 04:24 AM
+-- Generation Time: Oct 17, 2023 at 08:35 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -66,22 +66,6 @@ INSERT INTO `documents` (`id`, `doc_name`, `date_created`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifications`
---
-
-CREATE TABLE `notifications` (
-  `id` int(30) NOT NULL,
-  `user_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `message` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT current_timestamp(),
-  `date_updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `parcels`
 --
 
@@ -115,10 +99,7 @@ INSERT INTO `parcels` (`id`, `reference_number`, `created_by`, `sender_name`, `s
 (5, '20231010V2IBNGC', '4', '4', '', '0912354634542', '3', '', '09456258490', '1', '1', '2', 'Signature for DTR', 0, '2023-10-10 02:01:57', '2023-10-17 19:35:44'),
 (6, '20231010L8AF19P', '4', '4', '', '0912354634542', '5', '', '09823235345', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:02:14', '2023-10-17 20:48:09'),
 (7, '202310102V5C17R', '4', '4', '', '0912354634542', '5', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:07:59', '2023-10-17 20:48:04'),
-(8, '202310108LNCUGH', '4', '4', '', '0912354634542', '2', '', '09456258490', '1', '1', '3', 'Signature for DTR', 1, '2023-10-10 02:08:13', '2023-10-17 19:35:08'),
-(9, '20231017OQKNTE9', '4', '4', '', '0912354634542', '3', '', '09456258490', '1', '1', '2', 'Test', 0, '2023-10-17 14:39:20', '2023-10-17 14:39:20'),
-(10, '20231018N3TXQLD', '4', '2', '', '09456258490', '5', '', '09823235345', '1', '3', '1', 'Sample', 0, '2023-10-18 14:51:10', '2023-10-18 14:55:12'),
-(11, '20231021NHZBQYF', '2', '2', '', '09456258490', '4', '', '0912354634542', '1', '3', '1', 'Sample', 0, '2023-10-21 09:39:16', '2023-10-21 09:39:16');
+(8, '202310108LNCUGH', '4', '4', '', '0912354634542', '2', '', '09456258490', '1', '1', '3', 'Signature for DTR', 1, '2023-10-10 02:08:13', '2023-10-17 19:35:08');
 
 -- --------------------------------------------------------
 
@@ -168,14 +149,7 @@ INSERT INTO `parcel_tracks` (`id`, `parcel_id`, `status`, `date_created`) VALUES
 (61, 4, 1, '2023-10-16 02:12:21'),
 (62, 2, 0, '2023-10-17 19:29:57'),
 (63, 7, 2, '2023-10-17 20:48:04'),
-(64, 6, 2, '2023-10-17 20:48:09'),
-(65, 9, 0, '2023-10-17 14:39:20'),
-(66, 10, 0, '2023-10-18 14:51:10'),
-(67, 10, 2, '2023-10-18 14:52:08'),
-(68, 10, 0, '2023-10-18 14:53:55'),
-(69, 10, 1, '2023-10-18 14:54:08'),
-(70, 10, 0, '2023-10-18 14:55:12'),
-(71, 11, 0, '2023-10-21 09:39:16');
+(64, 6, 2, '2023-10-17 20:48:09');
 
 -- --------------------------------------------------------
 
@@ -245,12 +219,6 @@ ALTER TABLE `documents`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `parcels`
 --
 ALTER TABLE `parcels`
@@ -291,22 +259,16 @@ ALTER TABLE `documents`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `notifications`
---
-ALTER TABLE `notifications`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `parcels`
 --
 ALTER TABLE `parcels`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `parcel_tracks`
 --
 ALTER TABLE `parcel_tracks`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
