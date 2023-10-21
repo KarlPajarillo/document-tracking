@@ -345,6 +345,7 @@ Class Action {
 					$ids[] = $id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$id);
 			}
+			return json_decode($data);
 		// }
 
 		if(isset($save) && isset($ids) && $save_tracks){
