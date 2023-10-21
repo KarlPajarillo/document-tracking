@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2023 at 04:24 AM
+-- Generation Time: Oct 21, 2023 at 08:52 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -89,12 +89,10 @@ CREATE TABLE `parcels` (
   `id` int(30) NOT NULL,
   `reference_number` varchar(100) NOT NULL,
   `created_by` varchar(30) NOT NULL,
-  `sender_name` text NOT NULL,
-  `sender_address` text NOT NULL,
-  `sender_contact` text NOT NULL,
-  `recipient_name` text NOT NULL,
-  `recipient_address` text NOT NULL,
-  `recipient_contact` text NOT NULL,
+  `sender_name` varchar(30) NOT NULL,
+  `sender_contact` varchar(30) NOT NULL,
+  `recipient_name` varchar(30) NOT NULL,
+  `recipient_contact` varchar(30) NOT NULL,
   `doc_type` varchar(30) NOT NULL,
   `from_branch_id` varchar(30) NOT NULL,
   `to_branch_id` varchar(30) NOT NULL,
@@ -108,17 +106,17 @@ CREATE TABLE `parcels` (
 -- Dumping data for table `parcels`
 --
 
-INSERT INTO `parcels` (`id`, `reference_number`, `created_by`, `sender_name`, `sender_address`, `sender_contact`, `recipient_name`, `recipient_address`, `recipient_contact`, `doc_type`, `from_branch_id`, `to_branch_id`, `remarks`, `status`, `date_created`, `date_updated`) VALUES
-(2, '202310091M6TK3J', '5', '5', '', '09823235345', '4', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 0, '2023-10-09 23:02:57', '2023-10-17 20:21:42'),
-(3, '202310090NV1G5R', '2', '2', '', '09456258490', '3', '', '09456258490', '1', '3', '2', 'Signature for DTR', 0, '2023-10-09 23:03:12', '2023-10-17 19:32:41'),
-(4, '202310106OP5CMJ', '5', '5', '', '09823235345', '4', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 1, '2023-10-10 02:01:40', '2023-10-17 19:34:53'),
-(5, '20231010V2IBNGC', '4', '4', '', '0912354634542', '3', '', '09456258490', '1', '1', '2', 'Signature for DTR', 0, '2023-10-10 02:01:57', '2023-10-17 19:35:44'),
-(6, '20231010L8AF19P', '4', '4', '', '0912354634542', '5', '', '09823235345', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:02:14', '2023-10-17 20:48:09'),
-(7, '202310102V5C17R', '4', '4', '', '0912354634542', '5', '', '0912354634542', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:07:59', '2023-10-17 20:48:04'),
-(8, '202310108LNCUGH', '4', '4', '', '0912354634542', '2', '', '09456258490', '1', '1', '3', 'Signature for DTR', 1, '2023-10-10 02:08:13', '2023-10-17 19:35:08'),
-(9, '20231017OQKNTE9', '4', '4', '', '0912354634542', '3', '', '09456258490', '1', '1', '2', 'Test', 0, '2023-10-17 14:39:20', '2023-10-17 14:39:20'),
-(10, '20231018N3TXQLD', '4', '2', '', '09456258490', '5', '', '09823235345', '1', '3', '1', 'Sample', 0, '2023-10-18 14:51:10', '2023-10-18 14:55:12'),
-(11, '20231021NHZBQYF', '2', '2', '', '09456258490', '4', '', '0912354634542', '1', '3', '1', 'Sample', 0, '2023-10-21 09:39:16', '2023-10-21 09:39:16');
+INSERT INTO `parcels` (`id`, `reference_number`, `created_by`, `sender_name`, `sender_contact`, `recipient_name`, `recipient_contact`, `doc_type`, `from_branch_id`, `to_branch_id`, `remarks`, `status`, `date_created`, `date_updated`) VALUES
+(2, '202310091M6TK3J', '5', '5', '09823235345', '4', '0912354634542', '1', '1', '1', 'Signature for DTR', 0, '2023-10-09 23:02:57', '2023-10-17 20:21:42'),
+(3, '202310090NV1G5R', '2', '2', '09456258490', '3', '09456258490', '1', '3', '2', 'Signature for DTR', 0, '2023-10-09 23:03:12', '2023-10-17 19:32:41'),
+(4, '202310106OP5CMJ', '5', '5', '09823235345', '4', '0912354634542', '1', '1', '1', 'Signature for DTR', 1, '2023-10-10 02:01:40', '2023-10-17 19:34:53'),
+(5, '20231010V2IBNGC', '4', '4', '0912354634542', '3', '09456258490', '1', '1', '2', 'Signature for DTR', 0, '2023-10-10 02:01:57', '2023-10-17 19:35:44'),
+(6, '20231010L8AF19P', '4', '4', '0912354634542', '5', '09823235345', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:02:14', '2023-10-17 20:48:09'),
+(7, '202310102V5C17R', '4', '4', '0912354634542', '5', '0912354634542', '1', '1', '1', 'Signature for DTR', 2, '2023-10-10 02:07:59', '2023-10-17 20:48:04'),
+(8, '202310108LNCUGH', '4', '4', '0912354634542', '2', '09456258490', '1', '1', '3', 'Signature for DTR', 1, '2023-10-10 02:08:13', '2023-10-17 19:35:08'),
+(9, '20231017OQKNTE9', '4', '4', '0912354634542', '3', '09456258490', '1', '1', '2', 'Test', 0, '2023-10-17 14:39:20', '2023-10-17 14:39:20'),
+(10, '20231018N3TXQLD', '4', '2', '09456258490', '5', '09823235345', '1', '3', '1', 'Sample', 0, '2023-10-18 14:51:10', '2023-10-18 14:55:12'),
+(11, '20231021NHZBQYF', '2', '2', '09456258490', '4', '0912354634542', '1', '3', '1', 'Sample', 0, '2023-10-21 09:39:16', '2023-10-21 09:39:16');
 
 -- --------------------------------------------------------
 
