@@ -1,7 +1,4 @@
-<?php 
-  // if(!isset($conn)){ include 'db_connect.php'; } 
-  include 'db_connect.php';
-?>
+<?php if(!isset($conn)){ include 'db_connect.php'; } ?>
 <style>
   textarea{
     resize: none;
@@ -21,13 +18,13 @@
             ?>
               <b>Sender Information</b>
               <div class="form-group">
-                <label for="" class="control-label">Name</label>
+                <label for="dummy_name" class="control-label">Name</label>
                     <input type="text" name="dummy_name" id="dummy_name" class="form-control form-control-lm" value="<?php echo $urow['firstname'].' '.$urow['lastname'] ?>" disabled>
                     <input type="hidden" name="sender_name" id="sender_name" class="form-control form-control-sm" value="<?php echo $_SESSION['login_id']?>" required>
                     <input type="hidden" name="created_by" id="created_by" class="form-control form-control-sm" value="<?php echo $_SESSION['login_id']?>" required>
               </div>
               <div class="form-group">
-                <label for="" class="control-label">Department/Office</label>         
+                <label for="from_branch_street" class="control-label">Department/Office</label>         
                 <?php 
                   $branch = $conn->query("SELECT * FROM branches where id = ".$urow['branch_id']);
                     while($row = $branch->fetch_assoc()):
@@ -37,7 +34,7 @@
                 <?php endwhile; ?>
               </div>
               <div class="form-group">
-                <label for="" class="control-label">Contact #</label>
+                <label for="sender_contact" class="control-label">Contact #</label>
                 <input type="text" name="sender_contact" id="sender_contact" class="form-control form-control-lm" value="<?php echo $urow['contact_number'] ?>" required>
               </div>
             <?php endwhile; ?>
@@ -45,7 +42,7 @@
           <div class="col-md-6">
               <b>Recipient Information</b>
               <div class="form-group">
-                <label for="" class="control-label">Name</label>
+                <label for="recipient_name" class="control-label">Name</label>
                 <select name="recipient_name" id="recipient_name" class="form-control select2">
                   <option value=""></option>
                   <?php 
@@ -57,12 +54,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="" class="control-label">Department/Office</label>
+                <label for="to_branch_street" class="control-label">Department/Office</label>
                 <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="" disabled>
                 <input type="hidden" name="to_branch_id" id="to_branch_id" class="form-control form-control-sm" value="" required>
               </div>
               <div class="form-group">
-                <label for="" class="control-label">Contact #</label>
+                <label for="recipient_contact" class="control-label">Contact #</label>
                 <input type="text" name="recipient_contact" id="recipient_contact" class="form-control form-control-lm" value="<?php echo isset($recipient_contact) ? $recipient_contact : '' ?>" required>
               </div>
           </div>
@@ -71,7 +68,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="dtype">Document Type</label>
+              <label for="doc_type">Document Type</label>
               <select name="doc_type" id="doc_type" class="form-control select2" required>
                 <option value=""></option>
                 <?php 
