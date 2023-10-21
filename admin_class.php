@@ -307,7 +307,7 @@ Class Action {
 		// foreach($price as $k => $v){
 			$data = "";
 			foreach($_POST as $key => $val){
-				if(!is_numeric($key)){
+				if(!is_numeric($key) && $key != 'id'){
 					if(empty($data)){
 						$data .= " $key='$val' ";
 					}else{
