@@ -338,11 +338,6 @@ Class Action {
 				}
 				$data .= ", reference_number='$ref', status = '0' ";
 				if($save[] = $this->db->query("INSERT INTO parcels set $data"))
-					$db_error = $this->db->error;
-					if (!empty($db_error)) {
-						throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
-						return false; // unreachable retrun statement !!!
-					}
 					$ids[]= $this->db->insert_id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 			}else{
