@@ -338,6 +338,11 @@ Class Action {
 				}
 				$data .= ", reference_number='$ref', status = '0' ";
 				if($save[] = $this->db->query("INSERT INTO parcels set $data"))
+					$db_error = $this->db->error;
+					if (!empty($db_error)) {
+						throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
+						return false; // unreachable retrun statement !!!
+					}
 					$ids[]= $this->db->insert_id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0' , parcel_id = ".$this->db->insert_id);
 			}else{
@@ -348,8 +353,9 @@ Class Action {
 		// }
 
 		if(isset($save) && isset($ids) && $save_tracks){
-			// return json_encode(array('ids'=>$ids,'status'=>$data));
-			return 1;
+			throw new Exception('Database error! Error Code');
+			return json_encode(array('ids'=>$ids,'status'=>$data));
+			// return 1;
 		}
 	}
 	function delete_parcel(){
