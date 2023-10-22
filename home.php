@@ -62,15 +62,64 @@ if($_SESSION['login_type'] != 1)
             </div>
           </div>
             <?php endforeach; ?>
-      </div>
+        </div>
 
 <?php else: ?>
-	 <div class="col-12">
-          <div class="card">
-          	<div class="card-body">
-          		Welcome <?php echo $_SESSION['login_name'] ?>!
-          	</div>
+  <div class="row">
+          <div class="col-12 col-sm-6 col-md-4">
+            <a href="./index.php?page=document_transactions" class="small-box bg-light shadow-sm border">
+              <div class="inner">
+                <h3><?php echo $conn->query("SELECT * FROM parcels WHERE sender_name = ".$_SESSION['login_id']." or recipient_name = ".$_SESSION['login_id']." or created_by = ".$_SESSION['login_id']."")->num_rows; ?></h3>
+
+                <p>All Transactions</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-boxes"></i>
+              </div>
+            </a>
           </div>
-      </div>
+           <!-- <div class="col-12 col-sm-6 col-md-4">
+            <div class="small-box bg-light shadow-sm border">
+              <div class="inner">
+                <h3><?php echo $conn->query("SELECT * FROM parcels")->num_rows; ?></h3>
+
+                <p>Total Parcels</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-boxes"></i>
+              </div>
+            </div>
+          </div> -->
+           <div class="col-12 col-sm-6 col-md-4">
+            <a href="./index.php?page=created_transactions" class="small-box bg-light shadow-sm border">
+              <div class="inner">
+                <h3><?php echo $conn->query("SELECT * FROM parcels where created_by = ".$_SESSION['login_id']."")->num_rows; ?></h3>
+                <p>Created Transactions</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-box"></i>
+              </div>
+            </a>
+          </div>
+          <hr>
+          <?php 
+              // $status_arr = array("Item Accepted by Courier","Collected","Shipped","In-Transit","Arrived At Destination","Out for Delivery","Ready to Pickup","Delivered","Picked-up","Unsuccessfull Delivery Attempt");
+              $status_arr = array("Sent","Received", "Denied");
+               foreach($status_arr as $k =>$v):
+          ?>
+          <div class="col-12 col-sm-6 col-md-4">
+            <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="small-box bg-light shadow-sm border">
+              <div class="inner">
+                <h3><?php echo $conn->query("SELECT * FROM parcels where (sender_name = ".$_SESSION['login_id']." or recipient_name = ".$_SESSION['login_id']." or created_by = ".$_SESSION['login_id'].") and status = {$k} ")->num_rows; ?></h3>
+
+                <p><?php echo $v.' Transactions' ?></p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-box"></i>
+              </div>
+            </a>
+          </div>
+            <?php endforeach; ?>
+        </div>
           
 <?php endif; ?>
