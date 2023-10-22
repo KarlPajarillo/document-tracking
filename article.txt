@@ -7,7 +7,7 @@ Upon cloning the file please create a file named "db_connect.php" and paste the 
 ******  Code starts here  *******
 
 <?php 
-    $conn= new mysqli('localhost','test','admin123','test')or die("Could not connect to mysql".mysqli_error($con));
+    $conn= new mysqli('localhost','root','','test')or die("Could not connect to mysql".mysqli_error($con));
 
 ******  Code ends here  *********
 
