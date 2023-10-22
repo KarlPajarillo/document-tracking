@@ -1,47 +1,52 @@
 <?php include'db_connect.php' ?>
 <div class="col-lg-12">
-	<div class="card card-outline card-success">
+	<div class="card card-outline card-primary">
 		<div class="card-header">
 			<div class="card-tools">
-				<a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="./index.php?page=new_user"><i class="fa fa-plus"></i> Add New User</a>
+				<a class="btn btn-block btn-sm btn-default btn-flat border-primary " href="./index.php?page=new_user"><i class="fa fa-plus"></i> Add New</a>
 			</div>
 		</div>
 		<div class="card-body">
 			<table class="table tabe-hover table-bordered" id="list">
+				<!-- <colgroup>
+					<col width="5%">
+					<col width="15%">
+					<col width="25%">
+					<col width="25%">
+					<col width="15%">
+				</colgroup> -->
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
 						<th>Name</th>
-						<th>Contact #</th>
-						<th>Role</th>
 						<th>Email</th>
+						<th>Department</th>
+						<th>User Type</th>
 						<th>Action</th>
+
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 					$i = 1;
-					$type = array('',"Admin","Registrar");
-					$qry = $conn->query("SELECT *,concat(lastname,', ',firstname,' ',middlename) as name FROM users order by concat(lastname,', ',firstname,' ',middlename) asc");
+					$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where u.type = 2 order by concat(u.firstname,' ',u.lastname) asc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>
-						<th class="text-center"><?php echo $i++ ?></th>
+						<td class="text-center"><?php echo $i++ ?></td>
 						<td><b><?php echo ucwords($row['name']) ?></b></td>
-						<td><b><?php echo $row['contact'] ?></b></td>
-						<td><b><?php echo $type[$row['type']] ?></b></td>
-						<td><b><?php echo $row['email'] ?></b></td>
+						<td><b><?php echo ($row['email']) ?></b></td>
+						<td><b><?php echo ucwords($row['department']) ?></b></td>
+						<td><b><?php echo ucwords($row['user_type']) ?></b></td>
 						<td class="text-center">
-							<button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-		                      Action
-		                    </button>
-		                    <div class="dropdown-menu" style="">
-		                      <a class="dropdown-item view_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
-		                      <div class="dropdown-divider"></div>
-		                      <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $row['id'] ?>">Edit</a>
-		                      <div class="dropdown-divider"></div>
-		                      <a class="dropdown-item delete_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>
-		                    </div>
+		                    <div class="btn-group">
+		                        <a href="index.php?page=edit_user&id=<?php echo $row['id'] ?>" class="btn btn-primary btn-flat ">
+		                          <i class="fas fa-edit"></i>
+		                        </a>
+		                        <button type="button" class="btn btn-danger btn-flat delete_staff" data-id="<?php echo $row['id'] ?>">
+		                          <i class="fas fa-trash"></i>
+		                        </button>
+	                      </div>
 						</td>
 					</tr>	
 				<?php endwhile; ?>
@@ -50,17 +55,22 @@
 		</div>
 	</div>
 </div>
+<style>
+	table td{
+		vertical-align: middle !important;
+	}
+</style>
 <script>
 	$(document).ready(function(){
 		$('#list').dataTable()
-	$('.view_user').click(function(){
-		uni_modal("<i class='fa fa-id-card'></i> User Details","view_user.php?id="+$(this).attr('data-id'))
+		$('.view_staff').click(function(){
+			uni_modal("staff's Details","view_staff.php?id="+$(this).attr('data-id'),"large")
+		})
+	$('.delete_staff').click(function(){
+	_conf("Are you sure to delete this user?","delete_staff",[$(this).attr('data-id')])
 	})
-	$('.delete_user').click(function(){
-	_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
 	})
-	})
-	function delete_user($id){
+	function delete_staff($id){
 		start_load()
 		$.ajax({
 			url:'ajax.php?action=delete_user',
@@ -68,7 +78,7 @@
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("User successfully deleted",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

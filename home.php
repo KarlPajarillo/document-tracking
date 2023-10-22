@@ -12,7 +12,7 @@ if($_SESSION['login_type'] != 1)
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM branches")->num_rows; ?></h3>
 
-                <p>Total Office</p>
+                <p>Department's</p>
               </div>
               <div class="icon">
                 <i class="fa fa-building"></i>
@@ -36,7 +36,7 @@ if($_SESSION['login_type'] != 1)
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM users where type != 1")->num_rows; ?></h3>
 
-                <p>Total Staff</p>
+                <p>User's</p>
               </div>
               <div class="icon">
                 <i class="fa fa-users"></i>

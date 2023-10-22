@@ -64,7 +64,7 @@
 			uni_modal("branch's Details","view_branch.php?id="+$(this).attr('data-id'),"large")
 		})
 	$('.delete_branch').click(function(){
-	_conf("Are you sure to delete this branch?","delete_branch",[$(this).attr('data-id')])
+	_conf("Are you sure to delete this Department?","delete_branch",[$(this).attr('data-id')])
 	})
 	})
 	function delete_branch($id){

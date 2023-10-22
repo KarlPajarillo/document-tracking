@@ -136,10 +136,13 @@
 									</td>';
 								} else {
 									echo '<td class="text-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
-												<i class="fas fa-share"></i>
-											</button>
+										<div class="btn-group">';
+										if($row['status'] != 2){
+											echo '<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
+											       <i class="fas fa-share"></i>
+										          </button>';
+								        }
+										    echo '
 											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
 												<i class="fas fa-eye"></i>
 											</button>
@@ -166,22 +169,22 @@
 	$(document).ready(function(){
 		$('#list').dataTable()
 		$('.view_parcel').click(function(){
-			uni_modal("Parcel's Details","view_parcel.php?id="+$(this).attr('data-id'),"large")
+			uni_modal("Transaction Details","view_parcel.php?id="+$(this).attr('data-id'),"large")
 		})
 		$('.forward_parcel').click(function(){
-			uni_modal("Send this to","forward_parcel.php?id="+$(this).attr('data-id'),"large")
+			uni_modal("","forward_parcel.php?id="+$(this).attr('data-id'),"large")
 		})
 		$('.delete_parcel').click(function(){
-			_conf("Are you sure to delete this parcel?","delete_parcel",[$(this).attr('data-id')])
+			_conf("Are you sure to delete this Transaction?","delete_parcel",[$(this).attr('data-id')])
 		})
 		$('.confirm_parcel').click(function(){
-			_conf("Are you sure to confirm this parcel?","confirm_parcel",[$(this).attr('data-id')])
+			_conf("Are you sure you want to confirm?","confirm_parcel",[$(this).attr('data-id')])
 		})
 		$('.deny_parcel').click(function(){
-			_conf("Are you sure to deny this parcel?","deny_parcel",[$(this).attr('data-id')])
+			_conf("Are you sure you want to deny?","deny_parcel",[$(this).attr('data-id')])
 		})
 		$('.resend_parcel').click(function(){
-			_conf("Are you sure to resend this parcel?","resend_parcel",[$(this).attr('data-id')])
+			_conf("Are you sure to resend this Document?","resend_parcel",[$(this).attr('data-id')])
 		})
 	})
 
