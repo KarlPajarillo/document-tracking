@@ -3,7 +3,7 @@ include 'db_connect.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-require 'vendor\autoload.php';
+require 'vendor/autoload.php';
 function generateRandomCode($length = 8) {
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     $code = '';

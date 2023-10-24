@@ -1,1 +1,3 @@
 db_connect.php
+vendor
+composer.lock
