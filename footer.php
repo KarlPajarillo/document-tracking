@@ -55,10 +55,11 @@
 	      $.ajax({
 	          url:$url,
 	          error:err=>{
-	              console.log()
+	              console.log('LLLLLLL', $title, $url, $size)
 	              alert("An error occured")
 	          },
 	          success:function(resp){
+	              console.log('AAAAAAAAA', $title, $url, $size, resp)
 	              if(resp){
 	                  $('#uni_modal .modal-title').html($title)
 	                  $('#uni_modal .modal-body').html(resp)

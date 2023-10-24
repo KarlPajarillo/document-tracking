@@ -178,12 +178,6 @@ Class Action {
 				}
 			}
 		}
-		if($_FILES['img']['tmp_name'] != ''){
-			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
-			$move = move_uploaded_file($_FILES['img']['tmp_name'],'assets/uploads/'. $fname);
-			$data .= ", avatar = '$fname' ";
-
-		}
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
@@ -200,8 +194,6 @@ Class Action {
 				if($key != 'password' && !is_numeric($key))
 					$_SESSION['login_'.$key] = $value;
 			}
-			if($_FILES['img']['tmp_name'] != '')
-			$_SESSION['login_avatar'] = $fname;
 			return 1;
 		}
 	}
@@ -265,9 +257,6 @@ Class Action {
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
-			// if($k == 'department'){
-			// 	$data .= " $k='$v'";
-			// }
 			if(!in_array($k, array('id')) && !is_numeric($k)){
 				if(empty($data)){
 					$data .= " $k='$v' ";
@@ -304,7 +293,6 @@ Class Action {
 	}
 	function save_parcel(){
 		extract($_POST);
-		// foreach($price as $k => $v){
 			$data = "";
 			foreach($_POST as $key => $val){
 				if(!is_numeric($key) && $key != 'id'){
@@ -315,20 +303,10 @@ Class Action {
 					}
 				}
 			}
-			// if(!isset($type)){
-			// 	$data .= ", type='2' ";
-			// }
-			// 	$data .= ", height='{$height[$k]}' ";
-			// 	$data .= ", width='{$width[$k]}' ";
-			// 	$data .= ", length='{$length[$k]}' ";
-			// 	$data .= ", weight='{$weight[$k]}' ";
-			// 	$price[$k] = str_replace(',', '', $price[$k]);
-			// 	$data .= ", price='{$price[$k]}' ";
 			if(empty($id)){
 				$i = 0;
 				while($i == 0){
 					$charToUse = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-					// $ref = sprintf("%'012d",mt_rand(0, 999999999999));
 					$ref = substr(str_shuffle($charToUse), 0, 7);
 					$ref = (date('Ymd').$ref);
 					$chk = $this->db->query("SELECT * FROM parcels where reference_number = '$ref'")->num_rows;
@@ -356,6 +334,23 @@ Class Action {
 			// throw new Exception('Database error! Error Code');
 			// return json_encode(array('ids'=>$ids,'status'=>$data));
 			return 1;
+		}
+	}
+	function verify(){
+		extract($_POST);
+		$chk = $this->db->query("SELECT * FROM users WHERE reset_code='{$code}' AND email = '{$email}'")->num_rows;
+		if($npassword == $cpassword && $chk > 0){
+			$update = $this->db->query("UPDATE users set password='".md5($npassword)."' where email = '{$email}'");
+			if($update){
+				return 1;  
+			}
+		}else{
+			if($chk == 0){
+				return 2;
+			}
+			if($npassword != $cpassword){
+				return 3;
+			}
 		}
 	}
 	function delete_parcel(){

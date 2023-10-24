@@ -29,7 +29,7 @@ header("location:index.php?page=home");
     <div class="card-body login-card-body">
       <form action="" id="login-form">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" required placeholder="Email">
+          <input type="email" class="form-control" id="email" name="email" required placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -45,52 +45,91 @@ header("location:index.php?page=home");
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
+          <div class="col-6">
+            <div class="btn-group">
+            <button type="button" class="btn btn-light btn-flat forgot" data-id="4">
+              Forgot Password
+            </button>
             </div>
           </div>
-          <!-- /.col -->
+          <div class="col-2">
+          </div>
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
-          <!-- /.col -->
         </div>
       </form>
     </div>
     <!-- /.login-card-body -->
   </div>
 </div>
+<div class="modal fade" id="uni_modal" role='dialog'>
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title"></h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+      </div>
+    </div>
+  </div>
 <!-- /.login-box -->
 <script>
   $(document).ready(function(){
-    $('#login-form').submit(function(e){
-    e.preventDefault()
-    start_load()
-    if($(this).find('.alert-danger').length > 0 )
-      $(this).find('.alert-danger').remove();
-    $.ajax({
-      url:'ajax.php?action=login',
-      method:'POST',
-      data:$(this).serialize(),
-      error:err=>{
-        console.log(err)
-        end_load();
+    $('.forgot').click(function(){
+        start_load()
+        $("#alert-message").remove();
+        $.ajax({
+          url:'send.php?email='+$('#email').val(),
+          method:'POST',
+          // data:$(this).serialize(),
+          error:err=>{
+            console.log(err)
+            end_load();
 
-      },
-      success:function(resp){
-        if(resp == 1){
-          location.href ='index.php?page=home';
-        }else{
-          $('#login-form').prepend('<div class="alert alert-danger">Username or password is incorrect.</div>')
+          },
+          success:function(resp){
+            end_load();
+            if(resp == 'Message has been sent'){
+              alert_toast(resp,'success')
+              uni_modal("Please check your email for verification code!!!","reset_password.php?email="+$('#email').val(),"large")
+            }else{
+              $('#login-form').prepend('<div id="alert-message" class="alert alert-danger">'+resp+'</div>')
+            }
+          }
+        })
+      })
+
+      $('#login-form').submit(function(e){
+        $("#alert-message").remove();
+      e.preventDefault()
+      start_load()
+      if($(this).find('.alert-danger').length > 0 )
+        $(this).find('.alert-danger').remove();
+      $.ajax({
+        url:'ajax.php?action=login',
+        method:'POST',
+        data:$(this).serialize(),
+        error:err=>{
+          console.log(err)
           end_load();
+
+        },
+        success:function(resp){
+          if(resp == 1){
+            location.href ='index.php?page=home';
+          }else{
+            $('#login-form').prepend('<div id="alert-message" class="alert alert-danger">Username or password is incorrect.</div>')
+            end_load();
+          }
         }
-      }
+      })
     })
-  })
   })
 </script>
 <?php include 'footer.php' ?>

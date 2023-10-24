@@ -76,6 +76,11 @@ if($action == 'save_parcel'){
 	if($save)
 		echo $save;
 }
+if($action == 'verify'){
+	$verify = $crud->verify();
+	if($verify)
+		echo $verify;
+}
 if($action == 'delete_parcel'){
 	$save = $crud->delete_parcel();
 	if($save)
