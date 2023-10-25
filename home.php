@@ -19,18 +19,6 @@ if($_SESSION['login_type'] != 1)
               </div>
             </div>
           </div>
-           <!-- <div class="col-12 col-sm-6 col-md-4">
-            <div class="small-box bg-light shadow-sm border">
-              <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM parcels")->num_rows; ?></h3>
-
-                <p>Total Parcels</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-boxes"></i>
-              </div>
-            </div>
-          </div> -->
            <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
@@ -78,18 +66,6 @@ if($_SESSION['login_type'] != 1)
               </div>
             </a>
           </div>
-           <!-- <div class="col-12 col-sm-6 col-md-4">
-            <div class="small-box bg-light shadow-sm border">
-              <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM parcels")->num_rows; ?></h3>
-
-                <p>Total Parcels</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-boxes"></i>
-              </div>
-            </div>
-          </div> -->
            <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=created_transactions" class="small-box bg-light shadow-sm border">
               <div class="inner">
@@ -103,7 +79,6 @@ if($_SESSION['login_type'] != 1)
           </div>
           <hr>
           <?php 
-              // $status_arr = array("Item Accepted by Courier","Collected","Shipped","In-Transit","Arrived At Destination","Out for Delivery","Ready to Pickup","Delivered","Picked-up","Unsuccessfull Delivery Attempt");
               $status_arr = array("Sent","Received", "Denied");
                foreach($status_arr as $k =>$v):
           ?>

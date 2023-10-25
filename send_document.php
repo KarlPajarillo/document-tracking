@@ -46,7 +46,7 @@
                 <select name="recipient_name" id="recipient_name" class="form-control select2">
                   <option value=""></option>
                   <?php 
-                    $user = $conn->query("SELECT * FROM users where type = 2 and id != ".$_SESSION['login_id']);
+                    $user = $conn->query("SELECT * FROM users where type = 2 and dlt = '1' and id != ".$_SESSION['login_id']);
                       while($row = $user->fetch_assoc()):
                   ?>
                     <option value="<?php echo $row['id'] ?>" <?php echo isset($recipient_name) && $recipient_name == $row['id'] ? "selected":'' ?>><?php echo ucwords($row['firstname']). ' ' .ucwords($row['lastname']) ?></option>

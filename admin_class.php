@@ -17,7 +17,7 @@ Class Action {
 
 	function login(){
 		extract($_POST);
-			$qry = $this->db->query("SELECT *,concat(firstname,' ',lastname) as name FROM users where email = '".$email."' and password = '".md5($password)."'  ");
+			$qry = $this->db->query("SELECT *,concat(firstname,' ',lastname) as name FROM users where email = '".$email."' and password = '".md5($password)."' and dlt = '1'  ");
 		if($qry->num_rows > 0){
 			foreach ($qry->fetch_array() as $key => $value) {
 				if($key != 'password' && !is_numeric($key))
@@ -199,7 +199,7 @@ Class Action {
 	}
 	function delete_user(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM users where id = ".$id);
+		$delete = $this->db->query("UPDATE users set dlt = '0' where id = ".$id);
 		if($delete)
 			return 1;
 	}

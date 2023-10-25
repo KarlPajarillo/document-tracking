@@ -16,9 +16,9 @@
             <div class="row">
               <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">First Name</label>
-                <input type="text" name="firstname" id="" class="form-control form-control-sm" value="<?php echo isset($firstname) ? $firstname : '' ?>" required>
+                <input type="text" name="firstname" id="" class="form-control form-control-lm" value="<?php echo isset($firstname) ? $firstname : '' ?>" required>
               </div>
-			  <div class="col-sm-6 form-group ">
+              <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Department</label>
                 <select name="branch_id" id="" class="form-control input-sm select2">
                   <option value=""></option>
@@ -37,31 +37,35 @@
               
 			  <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Last Name</label>
-                <input type="text" name="lastname" id="" class="form-control form-control-sm" value="<?php echo isset($lastname) ? $lastname : '' ?>" required>
+                <input type="text" name="lastname" id="" class="form-control form-control-lm" value="<?php echo isset($lastname) ? $lastname : '' ?>" required>
               </div>
-
-              <div class="col-sm-6 form-group ">
-                <label for="" class="control-label">User Type</label>
-                <input type="text" name="user_type" id="" class="form-control form-control-sm"  title="Please put a valid contact number" value="<?php echo isset($user_type) ? $user_type : '' ?>" required>
+			        <div class="col-sm-6 form-group ">
+                <label for="" class="control-label">Contact Number</label>
+                <input type="text" name="contact_number" id="" class="form-control form-control-lm" pattern="^09[0-9]{9}$" title="Please put a valid contact number" value="<?php echo isset($contact_number) ? $contact_number : '' ?>" required>
               </div>
-
             </div>
 
             <div class="row">
               <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Email</label>
-                <input type="email" name="email" id="" class="form-control form-control-sm" value="<?php echo isset($email) ? $email : '' ?>" required>
+                <input type="email" name="email" id="" class="form-control form-control-lm" value="<?php echo isset($email) ? $email : '' ?>" required>
               </div>
-			  <div class="col-sm-6 form-group ">
-                <label for="" class="control-label">Contact Number</label>
-                <input type="text" name="contact_number" id="" class="form-control form-control-sm" pattern="^09[0-9]{9}$" title="Please put a valid contact number" value="<?php echo isset($contact_number) ? $contact_number : '' ?>" required>
+              <?php if (!isset($_GET['id'])): ?>
+              <div class="col-sm-6 form-group ">
+                <label for="type" class="control-label">User Type</label>
+                <select name="type" id="type" class="form-control input-sm select2">
+                  <option value="">--SELECT--</option>
+                  <option value="1">ADMIN</option>
+                  <option value="2">USER</option>
+                </select>
               </div>
+              <?php endif; ?>
             </div>
 			
             <div class="row">
               <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Password</label>
-                <input type="password" name="password" id="" class="form-control form-control-sm" <?php echo isset($id) ? '' : 'required' ?>>
+                <input type="password" name="password" id="" class="form-control form-control-lm" <?php echo isset($id) ? '' : 'required' ?>>
                 <?php if(isset($id)): ?>
                   <small class=""><i>Leave this blank if you dont want to change this</i></small>
                 <?php endif; ?>
