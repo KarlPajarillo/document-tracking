@@ -20,6 +20,10 @@
               </div>
               <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Department</label>
+                <?php if ($_SESSION['login_type'] == 2): ?>
+                  <input type="hidden" name="branch_id" value="<?php echo $_SESSION['login_branch_id'] ?>">
+                  <input type="text" name="" class="form-control form-control-lm" value="<?php echo ucwords($conn->query("SELECT department from branches where id = ".$_SESSION['login_branch_id'])->fetch_array()['department']) ?>" disabled>
+                <?php else: ?>
                 <select name="branch_id" id="" class="form-control input-sm select2">
                   <option value=""></option>
                   <?php
@@ -29,6 +33,7 @@
                   <option value="<?php echo $row['id'] ?>" <?php echo isset($branch_id) && $branch_id == $row['id'] ? "selected":'' ?>><?php echo $row['department'] ?></option>
                 <?php endwhile; ?>
                 </select>
+                <?php endif; ?>
               </div>
               
             </div>
@@ -55,8 +60,11 @@
                 <label for="type" class="control-label">User Type</label>
                 <select name="type" id="type" class="form-control input-sm select2">
                   <option value="">--SELECT--</option>
-                  <option value="1">ADMIN</option>
-                  <option value="2">USER</option>
+                  <?php if ($_SESSION['login_type'] == '1' ): ?>
+                    <option value="1">ADMIN</option>
+                  <?php endif; ?>
+                  <option value="2">DEPARTMENT HEAD</option>
+                  <option value="3">USER</option>
                 </select>
               </div>
               <?php endif; ?>

@@ -17,6 +17,7 @@
 
 	include 'header.php' 
 ?>
+<?php $branch_name = ucwords($conn->query("SELECT department from branches where id = ".$_SESSION['login_branch_id'])->fetch_array()['department']) ?>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
   <?php include 'topbar.php' ?>
@@ -34,7 +35,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><?php echo $title ?></h1>
+            <h1 class="m-0"><?php echo $title; if($branch_name) echo ' ('.$branch_name.')'; ?></h1>
           </div><!-- /.col -->
 
         </div><!-- /.row -->

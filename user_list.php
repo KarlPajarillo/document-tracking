@@ -29,7 +29,7 @@
 				<tbody>
 					<?php
 					$i = 1;
-					$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where u.id != ".$_SESSION['login_id']." and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
+					$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where ((u.id != ".$_SESSION['login_id']." and u.branch_id = ".$_SESSION['login_branch_id'].") or u.type = '1') and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>
@@ -37,15 +37,17 @@
 						<td><b><?php echo ucwords($row['name']) ?></b></td>
 						<td><b><?php echo ($row['email']) ?></b></td>
 						<td><b><?php echo ucwords($row['department']) ?></b></td>
-						<td><b><?php echo ucwords($row['type'] == '1' ? 'ADMIN' : 'USER' ) ?></b></td>
+						<td><b><?php echo ucwords($row['type'] == '1' ? 'ADMIN' : ($row['type'] == '2' ? 'DEPARTMENT HEAD' : 'USER') ) ?></b></td>
 						<td class="text-center">
 		                    <div class="btn-group">
-		                        <a href="index.php?page=edit_user&id=<?php echo $row['id'] ?>" class="btn btn-primary btn-flat ">
-		                          <i class="fas fa-edit"></i>
-		                        </a>
-		                        <button type="button" class="btn btn-danger btn-flat delete_staff" data-id="<?php echo $row['id'] ?>">
-		                          <i class="fas fa-trash"></i>
-		                        </button>
+								<?php if($row['type'] != '1'): ?>
+									<a href="index.php?page=edit_user&id=<?php echo $row['id'] ?>" class="btn btn-primary btn-flat ">
+									<i class="fas fa-edit"></i>
+									</a>
+									<button type="button" class="btn btn-danger btn-flat delete_staff" data-id="<?php echo $row['id'] ?>">
+									<i class="fas fa-trash"></i>
+									</button>
+								<?php endif; ?>
 	                      </div>
 						</td>
 					</tr>	

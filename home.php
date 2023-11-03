@@ -98,3 +98,15 @@ if($_SESSION['login_type'] != 1)
         </div>
           
 <?php endif; ?>
+<?php if($_SESSION['login_type'] != 3): ?>
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Your member's transactions</h1>
+          </div><!-- /.col -->
+      </div><!-- /.row -->
+            <hr class="border-primary">
+    </div><!-- /.container-fluid -->
+</div>
+<?php endif; ?>

@@ -2,9 +2,11 @@
     <div class="dropdown">
    	<a href="./" class="brand-link">
         <?php if($_SESSION['login_type'] == 1): ?>
-        <h3 class="text-center p-0 m-0"><b>ADMIN</b></h3>
+        <h3 class="text-center p-0 m-0"><b>Admin</b></h3>
+        <?php elseif($_SESSION['login_type'] == 2): ?>
+        <h4 class="text-center p-0 m-0"><b>Department Head</b></h4>
         <?php else: ?>
-        <h3 class="text-center p-0 m-0"><b>DOCU-TRACK</b></h3>
+        <h3 class="text-center p-0 m-0"><b>Member</b></h3>
         <?php endif; ?>
 
     </a>
@@ -45,6 +47,8 @@
               </li>
             </ul>
           </li>
+          <?php endif; ?>
+          <?php if($_SESSION['login_type'] != 3): ?>
           <li class="nav-item">
             <a href="#" class="nav-link nav-edit_user">
               <i class="nav-icon fas fa-users"></i>
@@ -68,7 +72,7 @@
               </li>
             </ul>
           </li>
-        <?php endif; ?>
+          <?php endif; ?>
           <li class="nav-item">
             <a href="#" class="nav-link nav-edit_transaction">
               <i class="nav-icon fas fa-boxes"></i>
