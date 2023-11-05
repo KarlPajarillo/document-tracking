@@ -253,9 +253,9 @@
             success:function(resp){
               if(resp == 1){
                   alert_toast('Document successfully sent',"success");
-                  // setTimeout(function(){
-                  //   location.href = 'index.php?page=document_transactions';
-                  // },2000)
+                  setTimeout(function(){
+                    location.href = 'index.php?page=document_transactions';
+                  },2000)
 
               }
             }
