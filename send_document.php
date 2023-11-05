@@ -3,6 +3,36 @@
   textarea{
     resize: none;
   }
+  #uploadForm label {
+      margin: 2px;
+      font-size: 1em;
+  }
+
+  #progress-bar {
+      background-color: #12CC1A;
+      color: #FFFFFF;
+      width: 0%;
+      -webkit-transition: width .3s;
+      -moz-transition: width .3s;
+      transition: width .3s;
+      border-radius: 5px;
+  }
+
+  #targetLayer {
+      width: 100%;
+      text-align: center;
+  }
+
+  input[type="file"] {
+    &::file-selector-button {
+      display: none;
+    }
+  }
+
+  input[type="file"]:hover, label[for="file_name"] {
+    cursor: pointer;
+  }
+
 </style>
 <div class="col-lg-12">
 	<div class="card card-outline card-primary">
@@ -87,6 +117,21 @@
             </div>
           </div>
         </div>
+        <div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group custom-file-button">
+                <label class="input-group-text" for="file_name">Upload Image/File:</label> 
+                <input name="file_name" id="file_name" type="file" class="form-control form-control-lm" required />
+              </div>
+              <div id="err"></div>
+            </div>
+          </div>
+          <div class="row">
+              <div id="progress-bar"></div>
+          </div>
+          <div id="targetLayer"></div>
+        </div>
       </form>
   	</div>
   	<div class="card-footer border-top border-info">
@@ -165,23 +210,65 @@
       end_load()
       return false;
     }
-		$.ajax({
-			url:'ajax.php?action=save_parcel',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-        if(resp == 1){
-            alert_toast('Document successfully sent',"success");
-            setTimeout(function(){
-              location.href = 'index.php?page=document_transactions';
-            },2000)
 
+    console.log($('#file_name').prop('files')[0]['name'], 'asdfsdfs');
+
+    $.ajax({
+      url: "upload.php",
+      type: "POST",
+      data:  new FormData(this),
+      contentType: false,
+      cache: false,
+      processData: false,
+      beforeSend: function() {
+        $("#err").fadeOut();
+      },
+      success: function(resp) {
+        $arr_resp = resp.split(',');
+        if ($arr_resp[0] != 'Success') {
+          $("#err").html("<span class='text-danger'>" + resp + "</span>").fadeIn();
+          end_load()
+        } else {
+          $("#err").html("<span class='text-success'>Success!</span>").fadeIn();
+          $.ajax({
+            url:'ajax.php?action=save_parcel',
+            data: {
+                id: '',
+                sender_name: $("#sender_name").val(),
+                created_by: $("#created_by").val(),
+                from_branch_id: $("#from_branch_id").val(),
+                sender_contact: $("#sender_contact").val(),
+                recipient_name: $("#recipient_name").val(),
+                to_branch_id: $("#to_branch_id").val(),
+                recipient_contact: $("#recipient_contact").val(),
+                doc_type: $("#doc_type").val(),
+                remarks: $("#remarks").val(),
+                file_name: $('#file_name').prop('files')[0]['name']
+              },
+              // cache: false,
+              // contentType: false,
+              // processData: false,
+              method: 'POST',
+              // type: 'POST',
+            success:function(resp){
+              if(resp == 1){
+                  alert_toast('Document successfully sent',"success");
+                  // setTimeout(function(){
+                  //   location.href = 'index.php?page=document_transactions';
+                  // },2000)
+
+              }
+            }
+          })
+          // $("#preview").html(data).fadeIn();
+          end_load()
+          // $("#manage-parcel")[0].reset(); 
         }
-			}
-		})
+      },
+      error: function(e) {
+        $("#err").html(e).fadeIn();
+      }          
+    });
+
 	})
 </script>
