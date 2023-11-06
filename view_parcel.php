@@ -27,6 +27,11 @@ $branch = array();
 						<dl>
 							<dd><b>Date Created: </b><?php echo date("M jS, Y h:i a", strtotime($date_created)) ?></dd>
 							<dd><b>Date Updated: </b><?php echo date("M jS, Y h:i a", strtotime($date_updated)) ?></dd>
+							<dd>
+								<a href="assets/uploads/<?php echo $file_name ?>" target="blank" class="btn btn-primary btn-flat" style="color:white; text-decoration: none">
+									View Document
+								</a>
+							</dd>
 						</dl>
 					</div>
 				</div>

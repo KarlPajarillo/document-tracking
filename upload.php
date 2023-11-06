@@ -29,9 +29,8 @@ if ($_FILES["file_name"]["size"] > 2000000) {
 }
 
 // Allow certain file formats
-if($imageFileType == "mp4" && $imageFileType == "mov" && $imageFileType == "avi" && $imageFileType == "wmv" && $imageFileType == "avchd"
-&& $imageFileType == "webm" && $imageFileType == "flv") {
-  echo "Videos are not allowed in this attachment. ";
+if($imageFileType != "doc" && $imageFileType != "docx" && $imageFileType != "pdf") {
+  echo "Only Documents/PDFs are allowed in this attachment. ";
   $uploadOk = 0;
 }
 

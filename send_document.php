@@ -121,7 +121,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="input-group custom-file-button">
-                <label class="input-group-text" for="file_name">Upload Image/File:</label> 
+                <label class="input-group-text" for="file_name">Upload File (ex. .doc and .pdf):</label> 
                 <input name="file_name" id="file_name" type="file" class="form-control form-control-lm" required />
               </div>
               <div id="err"></div>
