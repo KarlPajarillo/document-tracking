@@ -243,7 +243,7 @@
                 recipient_contact: $("#recipient_contact").val(),
                 doc_type: $("#doc_type").val(),
                 remarks: $("#remarks").val(),
-                file_name: $('#file_name').prop('files')[0]['name']
+                file_name: $arr_resp[1]
               },
               // cache: false,
               // contentType: false,
