@@ -60,13 +60,19 @@
                 <label for="type" class="control-label">User Type</label>
                 <select name="type" id="type" class="form-control input-sm select2">
                   <option value="">--SELECT--</option>
-                  <?php if ($_SESSION['login_type'] == '1' ): ?>
-                    <option value="1">ADMIN</option>
-                  <?php endif; ?>
-                  <option value="2">CED</option>
-                  <option value="3">DEAN</option>
-                  <option value="4">CHAIRPERSON</option>
-                  <option value="5">FACULTY</option>
+                    <?php if ($_SESSION['login_type'] == '1' ): ?>
+                      <option value="1">ADMIN</option>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['login_type'] == '1' || $_SESSION['login_type'] == '2' ): ?>
+                      <option value="2">CED</option>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['login_type'] != '3' && $_SESSION['login_type'] != '4' ): ?>
+                      <option value="3">DEAN</option>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['login_type'] != '5'): ?>
+                      <option value="4">CHAIRPERSON</option>
+                      <option value="5">FACULTY</option>
+                    <?php endif; ?>
                 </select>
               </div>
               <?php endif; ?>
