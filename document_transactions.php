@@ -126,6 +126,9 @@
 								if($row['status'] == 0){
 									echo '<td class="text-center">
 										<div class="btn-group">
+											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-eye"></i>
+											</button>
 											<button type="button" class="btn btn-success btn-flat forward_parcel" data-id="'.$row['id'].'">
 												Confirm
 											</button>
