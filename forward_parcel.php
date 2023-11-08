@@ -46,10 +46,10 @@ $branch = array();
                 <div class="card card-outline card-light">
                     <div class="card-body">
                         <form action="" id="manage-parcel">
-                                <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-                                <input type="hidden" name="doc_type" value="<?php echo $doc_type ?>">
-                                <input type="hidden" name="remarks" value="<?php echo $remarks ?>">
-                                <input type="hidden" name="status" value="0">
+                                <input type="hidden" id="id" name="id" value="<?php echo isset($id) ? $id : '' ?>">
+                                <input type="hidden" id="doc_type" name="doc_type" value="<?php echo $doc_type ?>">
+                                <input type="hidden" id="remarks" name="remarks" value="<?php echo $remarks ?>">
+                                <input type="hidden" id="status" name="status" value="0">
                                 <div id="msg" class=""></div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -86,7 +86,11 @@ $branch = array();
                                             <select name="recipient_name" id="recipient_name" class="form-control select2">
                                             <option value=""></option>
                                             <?php 
-                                                $user = $conn->query("SELECT * FROM users where type = 2 and dlt = '1' and id != ".$recipient_name);
+                                                if($conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_array()['type'] == 4){
+                                                    $user = $conn->query("SELECT * FROM users where type = 3 and dlt = '1' and branch_id = ".$to_branch_id);
+                                                } elseif($conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_array()['type'] == 3) {
+                                                    $user = $conn->query("SELECT * FROM users where type = 2 and dlt = '1' and branch_id = ".$to_branch_id);
+                                                }
                                                 while($row = $user->fetch_assoc()):
                                             ?>
                                                 <option value="<?php echo $row['id'] ?>" ><?php echo ucwords($row['firstname']). ' ' .ucwords($row['lastname']) ?></option>
@@ -104,7 +108,22 @@ $branch = array();
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <div class="input-group custom-file-button">
+                                            <label class="input-group-text" for="file_name">Upload File (ex. .doc and .pdf):</label> 
+                                            <input name="file_name" id="file_name" type="file" class="form-control form-control-lm" required />
+                                        </div>
+                                        <div id="err"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="progress-bar"></div>
+                                    </div>
+                                    <div id="targetLayer"></div>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -123,6 +142,15 @@ $branch = array();
 	#uni_modal .modal-footer.display{
 		display: flex
 	}
+    input[type="file"] {
+        &::file-selector-button {
+        display: none;
+        }
+    }
+
+    input[type="file"]:hover, label[for="file_name"] {
+        cursor: pointer;
+    }
 </style>
 <noscript>
 	<style>
@@ -170,23 +198,63 @@ $branch = array();
       end_load()
       return false;
     }
-		$.ajax({
-			url:'ajax.php?action=save_parcel',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-        if(resp == 1){
-            alert_toast('Document successfully sent',"success");
-            setTimeout(function(){
-              location.href = 'index.php?page=document_transactions';
-            },2000)
 
-        }
-			}
-		})
+        $.ajax({
+        url: "upload.php",
+        type: "POST",
+        data:  new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function() {
+            $("#err").fadeOut();
+        },
+        success: function(resp) {
+            $arr_resp = resp.split(',');
+            if ($arr_resp[0] != 'Success') {
+            $("#err").html("<span class='text-danger'>" + resp + "</span>").fadeIn();
+            end_load()
+            } else {
+                $("#err").html("<span class='text-success'>Success!</span>").fadeIn();
+                $.ajax({
+                    url:'ajax.php?action=save_parcel',
+                    data: {
+                        id: $("#id").val(),
+                        sender_name: $("#sender_name").val(),
+                        created_by: $("#created_by").val(),
+                        from_branch_id: $("#from_branch_id").val(),
+                        sender_contact: $("#sender_contact").val(),
+                        recipient_name: $("#recipient_name").val(),
+                        to_branch_id: $("#to_branch_id").val(),
+                        recipient_contact: $("#recipient_contact").val(),
+                        doc_type: $("#doc_type").val(),
+                        remarks: $("#remarks").val(),
+                        file_name: $arr_resp[1]
+                    },
+                    cache: false,
+                    // contentType: false,
+                    // processData: false,
+                    method: 'POST',
+                    type: 'POST',
+                    success:function(resp){
+                    if(resp == 1){
+                        alert_toast('Document successfully sent',"success");
+                        setTimeout(function(){
+                        location.href = 'index.php?page=document_transactions';
+                        },2000)
+
+                    }
+                        }
+                })
+                // $("#preview").html(data).fadeIn();
+                end_load()
+                // $("#manage-parcel")[0].reset(); 
+            }
+        },
+        error: function(e) {
+            $("#err").html(e).fadeIn();
+        }          
+        });
+		
 	})
 </script>

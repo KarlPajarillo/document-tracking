@@ -98,7 +98,7 @@ if($_SESSION['login_type'] != 1)
         </div>
           
 <?php endif; ?>
-<?php if($_SESSION['login_type'] != 3): ?>
+<?php if($_SESSION['login_type'] != 5): ?>
 <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
