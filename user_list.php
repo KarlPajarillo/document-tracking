@@ -30,7 +30,7 @@
 					<?php
 					$i = 1;
 					if($_SESSION['login_type'] == 1){
-						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where ((u.id != ".$_SESSION['login_id']." and u.branch_id = ".$_SESSION['login_branch_id'].") or u.type = '1') and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
+						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
 					}elseif($_SESSION['login_type'] == 2){
 						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where ((u.id != ".$_SESSION['login_id']." and u.branch_id = ".$_SESSION['login_branch_id'].") and (u.type != '1' and u.type != '2')) and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
 					}elseif($_SESSION['login_type'] == 3){
