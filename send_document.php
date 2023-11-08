@@ -76,10 +76,10 @@
                 <select name="recipient_name" id="recipient_name" class="form-control select2">
                   <option value=""></option>
                   <?php 
-                    $user = $conn->query("SELECT * FROM users where dlt = '1' and id != ".$_SESSION['login_id']." and (branch_id = ".$_SESSION['login_branch_id']." or type = 1)" );
+                    $user = $conn->query("SELECT * FROM users where dlt = '1' and id != ".$_SESSION['login_id']." and (branch_id = ".$_SESSION['login_branch_id']." and type = 4)" );
                       while($row = $user->fetch_assoc()):
                   ?>
-                    <option value="<?php echo $row['id'] ?>" <?php echo isset($recipient_name) && $recipient_name == $row['id'] ? "selected":'' ?>><?php echo ucwords($row['type'] == 1 ? '(&nbsp;&nbsp;&nbsp;Admin&nbsp;&nbsp;&nbsp;)' : ($row['type'] == 2 ? '(&nbsp;&nbsp;&nbsp;&nbsp;Head&nbsp;&nbsp;&nbsp;&nbsp;)' : '(&nbsp;Member&nbsp;)')). ':&nbsp;' .ucwords($row['firstname']). ' ' .ucwords($row['lastname']) ?></option>
+                    <option value="<?php echo $row['id'] ?>" <?php echo isset($recipient_name) && $recipient_name == $row['id'] ? "selected":'' ?>><?php echo ucwords($row['firstname']). ' ' .ucwords($row['lastname']) ?></option>
                   <?php endwhile; ?>
                 </select>
               </div>

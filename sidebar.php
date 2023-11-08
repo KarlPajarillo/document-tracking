@@ -4,9 +4,13 @@
         <?php if($_SESSION['login_type'] == 1): ?>
         <h3 class="text-center p-0 m-0"><b>Admin</b></h3>
         <?php elseif($_SESSION['login_type'] == 2): ?>
-        <h4 class="text-center p-0 m-0"><b>Department Head</b></h4>
+        <h3 class="text-center p-0 m-0"><b>CED</b></h3>
+        <?php elseif($_SESSION['login_type'] == 3): ?>
+        <h3 class="text-center p-0 m-0"><b>DEAN</b></h3>
+        <?php elseif($_SESSION['login_type'] == 4): ?>
+        <h3 class="text-center p-0 m-0"><b>CHAIRPERSON</b></h3>
         <?php else: ?>
-        <h3 class="text-center p-0 m-0"><b>Member</b></h3>
+        <h3 class="text-center p-0 m-0"><b>FACULTY</b></h3>
         <?php endif; ?>
 
     </a>
@@ -48,7 +52,7 @@
             </ul>
           </li>
           <?php endif; ?>
-          <?php if($_SESSION['login_type'] != 3): ?>
+          <?php if($_SESSION['login_type'] != 5): ?>
           <li class="nav-item">
             <a href="#" class="nav-link nav-edit_user">
               <i class="nav-icon fas fa-users"></i>

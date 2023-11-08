@@ -20,7 +20,7 @@
               </div>
               <div class="col-sm-6 form-group ">
                 <label for="" class="control-label">Department</label>
-                <?php if ($_SESSION['login_type'] == 2): ?>
+                <?php if ($_SESSION['login_type'] == 4): ?>
                   <input type="hidden" name="branch_id" value="<?php echo $_SESSION['login_branch_id'] ?>">
                   <input type="text" name="" class="form-control form-control-lm" value="<?php echo ucwords($conn->query("SELECT department from branches where id = ".$_SESSION['login_branch_id'])->fetch_array()['department']) ?>" disabled>
                 <?php else: ?>
@@ -63,8 +63,10 @@
                   <?php if ($_SESSION['login_type'] == '1' ): ?>
                     <option value="1">ADMIN</option>
                   <?php endif; ?>
-                  <option value="2">DEPARTMENT HEAD</option>
-                  <option value="3">USER</option>
+                  <option value="2">CED</option>
+                  <option value="3">DEAN</option>
+                  <option value="4">CHAIRPERSON</option>
+                  <option value="5">FACULTY</option>
                 </select>
               </div>
               <?php endif; ?>
