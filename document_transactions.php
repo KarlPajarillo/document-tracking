@@ -59,7 +59,7 @@
 									echo "<span class='badge badge-pill badge-primary'> Sent</span>";
 									break;
 								case '1':
-									echo "<span class='badge badge-pill badge-success'> Received</span>";
+									echo "<span class='badge badge-pill badge-success'> Verified</span>";
 									break;
 								case '2':
 									echo "<span class='badge badge-pill badge-danger'> Denied</span>";
@@ -96,6 +96,9 @@
 								if($row['status'] == 2 && $_SESSION['login_id'] == $row['sender_name']){
 									echo '<td class="text-center">
 											<div class="btn-group">
+												<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
+												<i class="fas fa-eye"></i>
+												</button>
 												<button type="button" class="btn btn-success btn-flat resend_parcel" data-id="'.$row['id'].'">
 													Resend
 												</button>
@@ -128,11 +131,19 @@
 										<div class="btn-group">
 											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
 												<i class="fas fa-eye"></i>
-											</button>
-											<button type="button" class="btn btn-success btn-flat forward_parcel" data-id="'.$row['id'].'">
+											</button>';
+
+									if($_SESSION['login_type'] == 2){
+										echo '<button type="button" class="btn btn-success btn-flat confirm_parcel" data-id="'.$row['id'].'">
 												Confirm
-											</button>
-											<button type="button" class="btn btn-danger btn-flat deny_parcel" data-id="'.$row['id'].'">
+											</button>';
+									} else {
+										echo '<button type="button" class="btn btn-success btn-flat forward_parcel" data-id="'.$row['id'].'">
+												Confirm
+											</button>';
+									}
+
+										echo '<button type="button" class="btn btn-danger btn-flat deny_parcel" data-id="'.$row['id'].'">
 												Deny
 											</button>
 										</div>
@@ -140,11 +151,11 @@
 								} else {
 									echo '<td class="text-center">
 										<div class="btn-group">';
-										if($row['status'] != 2){
-											echo '<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
-											       <i class="fas fa-share"></i>
-										          </button>';
-								        }
+										// if($row['status'] != 2){
+										// 	echo '<button type="button" class="btn btn-light btn-flat forward_parcel" data-id="'.$row['id'].'">
+										// 	       <i class="fas fa-share"></i>
+										//           </button>';
+								        // }
 										    echo '
 											<button type="button" class="btn btn-info btn-flat view_parcel" data-id="'.$row['id'].'">
 												<i class="fas fa-eye"></i>
@@ -181,13 +192,15 @@
 			_conf("Are you sure to delete this Transaction?","delete_parcel",[$(this).attr('data-id')])
 		})
 		$('.confirm_parcel').click(function(){
-			_conf("Are you sure you want to confirm?","confirm_parcel",[$(this).attr('data-id')])
+			uni_modal("","confirm_parcel.php?id="+$(this).attr('data-id'),"large")
+			// _conf("Are you sure you want to confirm?","confirm_parcel",[$(this).attr('data-id')])
 		})
 		$('.deny_parcel').click(function(){
 			_conf("Are you sure you want to deny?","deny_parcel",[$(this).attr('data-id')])
 		})
 		$('.resend_parcel').click(function(){
-			_conf("Are you sure to resend this Document?","resend_parcel",[$(this).attr('data-id')])
+			uni_modal("","resend_parcel.php?id="+$(this).attr('data-id'),"large")
+			// _conf("Are you sure to resend this Document?","resend_parcel",[$(this).attr('data-id')])
 		})
 	})
 

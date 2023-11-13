@@ -45,7 +45,7 @@ $branch = array();
 						<dt>Name:</dt>
 						<dd><?php echo ucwords($conn->query("SELECT concat(firstname, ' ', lastname) as name from users where id = ".$sender_name)->fetch_array()['name']) ?></dd>
 						<dt>Department:</dt>
-						<dd><?php echo ucwords($branch[$from_branch_id]) ?></dd>
+						<dd><?php echo ucwords((isset($branch[$from_branch_id]) ? $branch[$from_branch_id] : 'N/A' )) ?></dd>
 						<dt>Contact:</dt>
 						<dd><?php echo ucwords($sender_contact) ?></dd>
 					</dl>
@@ -58,7 +58,7 @@ $branch = array();
 						<dt>Name:</dt>
 						<dd><?php echo ucwords($conn->query("SELECT concat(firstname, ' ', lastname) as name from users where id = ".$recipient_name)->fetch_array()['name']) ?></dd>
 						<dt>Department:</dt>
-						<dd><?php echo ucwords($branch[$to_branch_id]) ?></dd>
+						<dd><?php echo ucwords((isset($branch[$to_branch_id]) ? $branch[$to_branch_id] : 'N/A' )) ?></dd>
 						<dt>Contact:</dt>
 						<dd><?php echo ucwords($recipient_contact) ?></dd>
 					</dl>
@@ -86,7 +86,7 @@ $branch = array();
 											echo "<span class='badge badge-pill badge-info'> Sent</span>";
 											break;
 										case '1':
-											echo "<span class='badge badge-pill badge-primary'> Received</span>";
+											echo "<span class='badge badge-pill badge-primary'> Verified</span>";
 											break;
 										case '2':
 											echo "<span class='badge badge-pill badge-danger'> Denied</span>";

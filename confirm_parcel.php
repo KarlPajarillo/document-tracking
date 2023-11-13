@@ -233,7 +233,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                         recipient_contact: $("#recipient_contact").val(),
                         doc_type: $("#doc_type").val(),
                         remarks: $("#remarks").val(),
-                        status: '0',
+                        status: '1',
                         file_name: $arr_resp[1]
                     },
                     cache: false,

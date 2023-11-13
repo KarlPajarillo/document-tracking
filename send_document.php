@@ -70,28 +70,26 @@
             <?php endwhile; ?>
           </div>
           <div class="col-md-6">
+            <?php 
+              $ruser = $conn->query("SELECT * FROM users where dlt = '1' and id != ".$_SESSION['login_id']." and (branch_id = ".$_SESSION['login_branch_id']." and type = 4)" );
+                    while($rurow = $ruser->fetch_assoc()):
+            ?>
               <b>Recipient Information</b>
               <div class="form-group">
-                <label for="recipient_name" class="control-label">Name</label>
-                <select name="recipient_name" id="recipient_name" class="form-control select2">
-                  <option value=""></option>
-                  <?php 
-                    $user = $conn->query("SELECT * FROM users where dlt = '1' and id != ".$_SESSION['login_id']." and (branch_id = ".$_SESSION['login_branch_id']." and type = 4)" );
-                      while($row = $user->fetch_assoc()):
-                  ?>
-                    <option value="<?php echo $row['id'] ?>" <?php echo isset($recipient_name) && $recipient_name == $row['id'] ? "selected":'' ?>><?php echo ucwords($row['firstname']). ' ' .ucwords($row['lastname']) ?></option>
-                  <?php endwhile; ?>
-                </select>
+                <label for="rdummy_name" class="control-label">Name</label>
+                    <input type="text" name="rdummy_name" id="rdummy_name" class="form-control form-control-lm" value="<?php echo $rurow['firstname'].' '.$rurow['lastname'] ?>" disabled>
+                    <input type="hidden" name="recipient_name" id="recipient_name" class="form-control form-control-sm" value="<?php echo $rurow['id']?>" required>
               </div>
               <div class="form-group">
-                <label for="to_branch_street" class="control-label">Department/Office</label>
-                <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="" disabled>
-                <input type="hidden" name="to_branch_id" id="to_branch_id" class="form-control form-control-sm" value="" required>
+                <label for="to_branch_street" class="control-label">Department/Office</label>         
+                <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="<?php echo $conn->query("SELECT * FROM branches where id = ".$rurow['branch_id'])->fetch_array()['department'] ?>" disabled>
+                <input type="hidden" name="to_branch_id" id="to_branch_id" class="form-control form-control-sm" value="<?php echo $rurow['branch_id'] ?>" required>
               </div>
               <div class="form-group">
                 <label for="recipient_contact" class="control-label">Contact #</label>
-                <input type="text" name="recipient_contact" id="recipient_contact" class="form-control form-control-lm" value="<?php echo isset($recipient_contact) ? $recipient_contact : '' ?>" required>
+                <input type="text" name="sender_contact" id="sender_contact" class="form-control form-control-lm" value="<?php echo $rurow['contact_number'] ?>" required>
               </div>
+            <?php endwhile; ?>
           </div>
         </div>
         <hr>

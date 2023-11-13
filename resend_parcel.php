@@ -13,7 +13,7 @@ $branch = array();
     	$branch[$row['id']] = $row['department'];
 	endwhile;
 }
-$type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_array()['type']
+$type = $conn->query("SELECT * FROM users where id = ".$sender_name)->fetch_array()['type']
 ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
@@ -55,14 +55,14 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                                 <div class="row">
                                     <div class="col-md-6">
                                         <?php 
-                                        $user = $conn->query("SELECT * FROM users where id = ".$recipient_name);
+                                        $user = $conn->query("SELECT * FROM users where id = ".$sender_name);
                                             while($urow = $user->fetch_assoc()):
                                         ?>
                                         <b>Sender Information</b>
                                         <div class="form-group">
                                             <label for="" class="control-label">Name</label>
                                                 <input type="text" name="dummy_name" id="dummy_name" class="form-control form-control-lm" value="<?php echo $urow['firstname'].' '.$urow['lastname'] ?>" disabled>
-                                                <input type="hidden" name="sender_name" id="sender_name" class="form-control form-control-sm" value="<?php echo $recipient_name?>" required>
+                                                <input type="hidden" name="sender_name" id="sender_name" class="form-control form-control-sm" value="<?php echo $sender_name?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="" class="control-label">Department/Office</label>         
@@ -87,11 +87,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                                     </div>
                                     <div class="col-md-6">
                                         <?php 
-                                            if($type == 2){
-                                                $ruser = $conn->query("SELECT * FROM users where id = ".$created_by );
-                                            } else{
-                                                $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = 0 and type = '".($type - 1)."')" );
-                                            }
+                                                $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = $to_branch_id and type = '".($type - 1)."')" );
                                                 while($rurow = $ruser->fetch_assoc()):
                                         ?>
                                         <b>Recipient Information</b>
@@ -102,7 +98,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                                         </div>
                                         <div class="form-group">
                                             <label for="to_branch_street" class="control-label">Department/Office</label>         
-                                            <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="<?php echo ($type == 2 ? $conn->query("SELECT * FROM branches where id = ".$rurow['branch_id'])->fetch_array()['department'] : 'N/A') ?>" disabled>
+                                            <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="<?php echo ($type != 2 || $type != 3 ? $conn->query("SELECT * FROM branches where id = ".$rurow['branch_id'])->fetch_array()['department'] : 'N/A') ?>" disabled>
                                             <input type="hidden" name="to_branch_id" id="to_branch_id" class="form-control form-control-sm" value="<?php echo $rurow['branch_id'] ?>" required>
                                         </div>
                                         <div class="form-group">

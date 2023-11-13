@@ -100,14 +100,14 @@
                 </a>
               </li>
             <?php endif; ?>
-            <?php //if($_SESSION['login_type'] == 2): ?>
+            <?php if($_SESSION['login_type'] == 5): ?>
               <li class="nav-item">
                 <a href="./index.php?page=send_document" class="nav-link nav-send_document tree-item">
                   <i class="fas fa-angle-right nav-icon"></i>
                   <p>Send Document</p>
                 </a>
               </li>
-            <?php //endif; ?>
+            <?php endif; ?>
               <li class="nav-item">
                 <a href="./index.php?page=document_transactions" class="nav-link nav-document_transactions nav-sall tree-item">
                   <i class="fas fa-angle-right nav-icon"></i>
@@ -125,14 +125,14 @@
                   </a>
                 </li>
               <?php endforeach; ?>
-              <?php //if($_SESSION['login_type'] == 2): ?>
+              <?php if($_SESSION['login_type'] == 5): ?>
                 <li class="nav-item">
                   <a href="./index.php?page=created_transactions" class="nav-link nav-created_transactions tree-item">
                     <i class="fas fa-angle-right nav-icon"></i>
                     <p>Created Transactions</p>
                   </a>
                 </li>
-              <?php //endif; ?>
+              <?php endif; ?>
             </ul>
           </li>
            <li class="nav-item dropdown">
