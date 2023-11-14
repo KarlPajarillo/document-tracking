@@ -59,7 +59,7 @@
 									echo "<span class='badge badge-pill badge-primary'> Sent</span>";
 									break;
 								case '1':
-									echo "<span class='badge badge-pill badge-success'> Verified</span>";
+									echo "<span class='badge badge-pill badge-success'> Approved</span>";
 									break;
 								case '2':
 									echo "<span class='badge badge-pill badge-danger'> Denied</span>";

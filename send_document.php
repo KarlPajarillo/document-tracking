@@ -87,7 +87,7 @@
               </div>
               <div class="form-group">
                 <label for="recipient_contact" class="control-label">Contact #</label>
-                <input type="text" name="sender_contact" id="sender_contact" class="form-control form-control-lm" value="<?php echo $rurow['contact_number'] ?>" required>
+                <input type="text" name="recipient_contact" id="recipient_contact" class="form-control form-control-lm" value="<?php echo $rurow['contact_number'] ?>" required>
               </div>
             <?php endwhile; ?>
           </div>
@@ -241,6 +241,7 @@
                 recipient_contact: $("#recipient_contact").val(),
                 doc_type: $("#doc_type").val(),
                 remarks: $("#remarks").val(),
+                message: $("#dummy_name").val() + ' sent you a document.',
                 file_name: $arr_resp[1]
               },
               // cache: false,

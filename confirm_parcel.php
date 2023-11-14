@@ -50,6 +50,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                                 <input type="hidden" id="id" name="id" value="<?php echo isset($id) ? $id : '' ?>">
                                 <input type="hidden" id="doc_type" name="doc_type" value="<?php echo $doc_type ?>">
                                 <input type="hidden" id="remarks" name="remarks" value="<?php echo $remarks ?>">
+                                <input type="hidden" id="reference_number" name="reference_number" value="<?php echo $reference_number ?>">
                                 <input type="hidden" id="status" name="status" value="0">
                                 <div id="msg" class=""></div>
                                 <div class="row">
@@ -226,6 +227,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                         id: $("#id").val(),
                         sender_name: $("#sender_name").val(),
                         created_by: $("#created_by").val(),
+                        reference_number: $("#reference_number").val(),
                         from_branch_id: $("#from_branch_id").val(),
                         sender_contact: $("#sender_contact").val(),
                         recipient_name: $("#recipient_name").val(),
@@ -234,6 +236,8 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                         doc_type: $("#doc_type").val(),
                         remarks: $("#remarks").val(),
                         status: '1',
+                        message: $("#dummy_name").val() + ' approved your document.' ,
+                        cmessage: '',
                         file_name: $arr_resp[1]
                     },
                     cache: false,

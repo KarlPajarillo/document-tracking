@@ -30,7 +30,7 @@
 					<?php
 					$i = 1;
 					if($_SESSION['login_type'] == 1){
-						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where (u.id != ".$_SESSION['login_id'].") and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
+						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u left outer join branches b on b.id = u.branch_id where (u.id != ".$_SESSION['login_id'].") and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
 					}elseif($_SESSION['login_type'] == 2){
 						$qry = $conn->query("SELECT u.*,concat(u.firstname,' ',u.lastname) as name, b.department FROM users u inner join branches b on b.id = u.branch_id where ((u.id != ".$_SESSION['login_id'].") and (u.type != '1' and u.type != '2')) and dlt='1' order by concat(u.firstname,' ',u.lastname) asc ");
 					}elseif($_SESSION['login_type'] == 3){
@@ -44,7 +44,7 @@
 						<td class="text-center"><?php echo $i++ ?></td>
 						<td><b><?php echo ucwords($row['name']) ?></b></td>
 						<td><b><?php echo ($row['email']) ?></b></td>
-						<td><b><?php echo ucwords($row['department']) ?></b></td>
+						<td><b><?php echo ucwords($row['department'] == 0 ? 'N/A' : $row['department']) ?></b></td>
 						<td><b><?php echo ucwords($row['type'] == '1' ? 'ADMIN' : ($row['type'] == '2' ? 'CED' : ($row['type'] == '3' ? 'DEAN' : ($row['type'] == '4' ? 'CHAIRPERSON' : 'FACULTY'))) ) ?></b></td>
 						<td class="text-center">
 		                    <div class="btn-group">

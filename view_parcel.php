@@ -86,7 +86,7 @@ $branch = array();
 											echo "<span class='badge badge-pill badge-info'> Sent</span>";
 											break;
 										case '1':
-											echo "<span class='badge badge-pill badge-primary'> Verified</span>";
+											echo "<span class='badge badge-pill badge-primary'> Approved</span>";
 											break;
 										case '2':
 											echo "<span class='badge badge-pill badge-danger'> Denied</span>";

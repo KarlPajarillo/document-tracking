@@ -1,4 +1,7 @@
-<?php include 'db_connect.php' ?>
+<?php include 'db_connect.php' ;
+
+$numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ")->num_rows;
+?>
 
 <!-- Navbar -->
   <nav class=" main-header docu-header navbar navbar-expand navbar-primary navbar-dark " style="background: #0d2ddc;">
@@ -22,24 +25,20 @@
         </a>
       </li>
      <li class="nav-item dropdown">
-        <a class="nav-link"  data-toggle="dropdown" aria-expanded="true" href="notifications.php">
+        <div class="nav-link"  data-toggle="dropdown" aria-expanded="true">
           <span class="fa fa-bell" style="font-size: 20px;"></span>
-          <?php if (5 > 0) : ?>
-              <span class="badge badge-danger" style="font-size: 10px; vertical-align: top; margin-left: -10px"><?php echo 5 ?></span>
+          <?php if ($numrows > 0) : ?>
+              <span class="badge badge-danger" style="font-size: 10px; vertical-align: top; margin-left: -10px"><?php echo $numrows ?></span>
           <?php endif; ?>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="account_settings" style="left: -2.5em;">
+        </div>
+        <div class="dropdown-menu" style="max-width: 500px;width:500px">
           <?php 
-            // $qry = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ");
-            // while($row= $qry->fetch_assoc()):
+            $qry = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ");
+              while($row= $qry->fetch_assoc()):
           ?>
-            <a class="dropdown-item" href="" id=""> <?php echo $_SESSION['login_id'] ?></a>
-            <a class="dropdown-item" href="" id=""> notif2</a>
-            <a class="dropdown-item" href="" id=""> notif3</a>
-            <a class="dropdown-item" href="" id=""> notif4</a>
-            <a class="dropdown-item" href="" id=""> notif5</a>
+            <a class="dropdown-item" href="" id=""> <?php echo $row['message'] ?></a>
           <?php 
-            // endwhile; 
+            endwhile; 
           ?>
         </div>
       </li>

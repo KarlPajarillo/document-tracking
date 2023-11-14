@@ -295,7 +295,7 @@ Class Action {
 		extract($_POST);
 			$data = "";
 			foreach($_POST as $key => $val){
-				if(!is_numeric($key) && $key != 'id'){
+				if(!is_numeric($key) && $key != 'id' && $key != 'message' && $key != 'cmessage'){
 					if(empty($data)){
 						$data .= " $key='$val' ";
 					}else{
@@ -323,14 +323,19 @@ Class Action {
 					}
 					$ids[]= $this->db->insert_id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0', sender_id = '{$sender_name}', receiver_id = '{$recipient_name}', parcel_id = ".$this->db->insert_id);
+					$save_notif = $this->db->query("INSERT INTO notifications set status= 'unread', user_id = '{$recipient_name}', message = '{$message}', reference_number = '{$ref}'");
 			}else{
 				if($save[] = $this->db->query("UPDATE parcels set $data where id = $id"))
 					$ids[] = $id;
 					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0', sender_id = '{$sender_name}', receiver_id = '{$recipient_name}' , parcel_id = ".$id);
+					$save_notif = $this->db->query("INSERT INTO notifications set status= 'unread', user_id = '{$recipient_name}', message = '{$message}', reference_number = '{$reference_number}'");
+					if($cmessage != ''){
+						$csave_notif = $this->db->query("INSERT INTO notifications set status= 'unread', user_id = '{$created_by}', message = '{$cmessage}', reference_number = '{$reference_number}'");
+					}
 			}
 		// }
 
-		if(isset($save) && isset($ids) && $save_tracks){
+		if(isset($save) && isset($ids) && $save_tracks && $save_notif){
 			// throw new Exception('Database error! Error Code');
 			// return json_encode(array('ids'=>$ids,'status'=>$data));
 			return 1;
@@ -402,7 +407,7 @@ Class Action {
 			$parcel = $parcel->fetch_array();
 			// $data[] = array('status'=>'Files To Confirm','date_created'=>date("M d, Y h:i A",strtotime($parcel['date_created'])));
 			$history = $this->db->query("SELECT * FROM parcel_tracks where parcel_id = {$parcel['id']}");
-			$status_arr = array("Sent","Verified", "Denied");
+			$status_arr = array("Sent","Approved", "Denied");
 			while($row = $history->fetch_assoc()){
 				$row['date_created'] = date("M d, Y h:i A",strtotime($row['date_created']));
 				$row['status'] = $status_arr[$row['status']];
@@ -422,7 +427,7 @@ Class Action {
 		$get = $this->db->query("SELECT * FROM parcels where $check_id
 			date(date_created) BETWEEN '$date_from' and '$date_to' ".($status != 'all' ? " and status = $status " : "")."
 			order by unix_timestamp(date_created) asc");
-		$status_arr = array("Sent","Verified", "Denied");
+		$status_arr = array("Sent","Approved", "Denied");
 		while($row=$get->fetch_assoc()){
 			$row['sender_name'] = ucwords($this->db->query("SELECT concat(firstname, ' ' , lastname) as name FROM users where id = {$row['sender_name']}")->fetch_array()['name']);
 			$row['recipient_name'] = ucwords($this->db->query("SELECT concat(firstname, ' ' , lastname) as name FROM users where id = {$row['recipient_name']}")->fetch_array()['name']);
