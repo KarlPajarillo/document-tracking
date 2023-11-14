@@ -327,7 +327,7 @@ Class Action {
 			}else{
 				if($save[] = $this->db->query("UPDATE parcels set $data where id = $id"))
 					$ids[] = $id;
-					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= '0', sender_id = '{$sender_name}', receiver_id = '{$recipient_name}' , parcel_id = ".$id);
+					$save_tracks = $this->db->query("INSERT INTO parcel_tracks set status= $status, sender_id = '{$sender_name}', receiver_id = '{$recipient_name}' , parcel_id = ".$id);
 					$save_notif = $this->db->query("INSERT INTO notifications set status= 'unread', user_id = '{$recipient_name}', message = '{$message}', reference_number = '{$reference_number}'");
 					if($cmessage != ''){
 						$csave_notif = $this->db->query("INSERT INTO notifications set status= 'unread', user_id = '{$created_by}', message = '{$cmessage}', reference_number = '{$reference_number}'");

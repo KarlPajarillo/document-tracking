@@ -64,11 +64,15 @@
 								var tl = $('#clone_timeline-item .iitem').clone()
 								tl.find('.dtime').text(resp[k].date_created)
 								if(resp[k].status == 'Sent'){
-									tl.find('.timeline-body').html('<b>'+resp[k].sender+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+': '+resp[k].remarks+')</em> to <b>'+resp[k].recipient+'</b>')
+									if(k==0){
+										tl.find('.timeline-body').html('<b>'+resp[k].sender+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+': '+resp[k].remarks+')</em> to <b>'+resp[k].recipient+'</b>')
+									}else{
+										tl.find('.timeline-body').html('<b>'+resp[k].sender+'</b> signed <em>('+resp[k].doc_type+': '+resp[k].remarks+')</em> and forwarded to <b>'+resp[k].recipient+'</b>')
+									}
 								} else {
-									tl.find('.timeline-body').html('<b>'+resp[k].recipient+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+': '+resp[k].remarks+')</em> from <b>'+resp[k].sender+'</b>')
+									tl.find('.timeline-body').html('<b>'+resp[k].sender+'</b> '+resp[k].status.toLowerCase()+' <em>('+resp[k].doc_type+': '+resp[k].remarks+')</em> from <b>'+resp[k].recipient+'</b>')
 								}
-								tl.find('#track-icon').addClass(resp[k].status == 'Sent' ? 'bg-blue' : (resp[k].status == 'Received' ? 'bg-green' : 'bg-red'))
+								tl.find('#track-icon').addClass(resp[k].status == 'Sent' ? 'bg-blue' : (resp[k].status == 'Approved' ? 'bg-green' : 'bg-red'))
 								$('#parcel_history').append(tl)
 							})
 						}
