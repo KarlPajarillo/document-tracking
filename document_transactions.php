@@ -22,7 +22,7 @@
 						<th>Sender Name</th>
 						<th>Recipient Name</th>
 						<th>Document Type</th>
-						<th>Branch Name</th>
+						<th>Department</th>
 						<th>Last Update</th>
 						<th>Status</th>
 						<th>Action</th>
