@@ -22,6 +22,7 @@
 						<th>Sender Name</th>
 						<th>Recipient Name</th>
 						<th>Document Type</th>
+						<th>Branch Name</th>
 						<th>Last Update</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -51,6 +52,7 @@
 						<td><b><?php echo ucwords($conn->query("SELECT concat(firstname, ' ', lastname) as name from users where id = ".$row['sender_name'])->fetch_array()['name']) ?></b></td>
 						<td><b><?php echo ucwords($conn->query("SELECT concat(firstname, ' ', lastname) as name from users where id = ".$row['recipient_name'])->fetch_array()['name']) ?></b></td>
 						<td><b><?php echo ucwords($conn->query("SELECT doc_name from documents where id = ".$row['doc_type'])->fetch_array()['doc_name']).': '.$row['remarks'] ?></b></td>
+						<td><b><?php echo ucwords($conn->query("SELECT u.branch_id, b.department from users u inner join branches b on u.branch_id = b.id where u.id = ".$row['created_by'])->fetch_array()['department']) ?></b></td>
 						<td><b><?php echo ucwords(date("M jS, Y", strtotime($row['date_updated']))) ?></b></td>
 						<td class="text-center">
 							<?php 
