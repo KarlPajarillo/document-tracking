@@ -56,6 +56,7 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                                 <input type="hidden" id="cfullname" name="cfullname" value="<?php echo $cfullname ?>">
                                 <input type="hidden" id="created_by" name="created_by" value="<?php echo $created_by ?>">
                                 <input type="hidden" id="reference_number" name="reference_number" value="<?php echo $reference_number ?>">
+                                <input type="hidden" id="destined_to" name="destined_to" value="<?php echo $destined_to ?>">
                                 <input type="hidden" id="status" name="status" value="0">
                                 <div id="msg" class=""></div>
                                 <div class="row">
@@ -241,6 +242,7 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                         doc_type: $("#doc_type").val(),
                         remarks: $("#remarks").val(),
                         status: '0',
+                        destined_to: $("#destined_to").val() + ',' + $("#sender_name").val() + ',',
                         message: $("#dummy_name").val() + ' sent you a document from ' + $("#cfullname").val() ,
                         cmessage: $("#dummy_name").val() + ' sent your document to ' + $("#rdummy_name").val() ,
                         file_name: $arr_resp[1]

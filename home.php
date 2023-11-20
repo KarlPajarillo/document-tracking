@@ -66,6 +66,7 @@ if($_SESSION['login_type'] != 1)
               </div>
             </a>
           </div>
+          <?php if($_SESSION['login_type'] == 5): ?>
            <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=created_transactions" class="small-box bg-light shadow-sm border">
               <div class="inner">
@@ -77,6 +78,7 @@ if($_SESSION['login_type'] != 1)
               </div>
             </a>
           </div>
+          <?php endif; ?>
           <hr>
           <?php 
               $status_arr = array("Sent","Approved", "Denied");
@@ -103,10 +105,44 @@ if($_SESSION['login_type'] != 1)
     <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Your member's transactions</h1>
+            <h1 class="m-0">Your faculty's transactions</h1>
           </div><!-- /.col -->
       </div><!-- /.row -->
-            <hr class="border-primary">
+      <hr class="border-primary">
+      <div class="row">
+            <?php 
+              $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as name FROM users WHERE branch_id = ".$_SESSION['login_branch_id']." and id != ".$_SESSION['login_id']);
+              foreach($qry as $key => $value):
+            ?>
+              <div class="col-4 col-sm-6 col-md-3" style="font-size:18px">
+                <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-item" style="border: solid 2px lightgrey">
+                    <a href="#" class="nav-link nav-edit_user">
+                      <!-- <i class="nav-icon fas fa-users"></i> -->
+                      <p>
+                        <?php echo $value['name'] ?>
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="./" class="nav-link nav-new_user tree-item">
+                          <i class="fas fa-angle-right nav-icon"></i>
+                          <p>Created</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="./" class="nav-link nav-user_list tree-item">
+                          <i class="fas fa-angle-right nav-icon"></i>
+                          <p>Approved</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+          <?php endforeach; ?>
+      </div>
     </div><!-- /.container-fluid -->
 </div>
 <?php endif; ?>

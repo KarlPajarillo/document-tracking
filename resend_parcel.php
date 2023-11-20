@@ -38,7 +38,8 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                             <dd><?php echo ucwords($conn->query("SELECT doc_name from documents where id = ".$doc_type)->fetch_array()['doc_name']) ?></dd>
                             <dt>Remarks:</dt>
                             <dd><?php echo ucwords($remarks) ?></dd>
-                            
+                            <dt>Creator:</dt>
+                            <dd><?php echo ucwords($cfullname) ?></dd>
                         </dl>
 				    </div>
 				</div>
@@ -55,6 +56,7 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                                 <input type="hidden" id="cfullname" name="cfullname" value="<?php echo $cfullname ?>">
                                 <input type="hidden" id="created_by" name="created_by" value="<?php echo $created_by ?>">
                                 <input type="hidden" id="reference_number" name="reference_number" value="<?php echo $reference_number ?>">
+                                <input type="hidden" id="destined_to" name="destined_to" value="<?php echo $destined_to ?>">
                                 <input type="hidden" id="status" name="status" value="0">
                                 <div id="msg" class=""></div>
                                 <div class="row">
@@ -92,7 +94,11 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                                     </div>
                                     <div class="col-md-6">
                                         <?php 
-                                                $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = $to_branch_id and type = '".($type - 1)."')" );
+                                            if($type == 2){
+                                                $ruser = $conn->query("SELECT * FROM users where id = ".$created_by );
+                                            } else{
+                                                $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = 0 and type = '".($type - 1)."')" );
+                                            }
                                                 while($rurow = $ruser->fetch_assoc()):
                                         ?>
                                         <b>Recipient Information</b>
@@ -103,7 +109,7 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                                         </div>
                                         <div class="form-group">
                                             <label for="to_branch_street" class="control-label">Department/Office</label>         
-                                            <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="<?php echo ($type != 2 || $type != 3 ? $conn->query("SELECT * FROM branches where id = ".$rurow['branch_id'])->fetch_array()['department'] : 'N/A') ?>" disabled>
+                                            <input type="text" name="to_branch_street" id="to_branch_street" class="form-control form-control-lm" value="<?php echo ($type == 2 ? $conn->query("SELECT * FROM branches where id = ".$rurow['branch_id'])->fetch_array()['department'] : 'N/A') ?>" disabled>
                                             <input type="hidden" name="to_branch_id" id="to_branch_id" class="form-control form-control-sm" value="<?php echo $rurow['branch_id'] ?>" required>
                                         </div>
                                         <div class="form-group">
@@ -226,8 +232,8 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                     data: {
                         id: $("#id").val(),
                         sender_name: $("#sender_name").val(),
-                        created_by: $("#created_by").val(),
                         reference_number: $("#reference_number").val(),
+                        created_by: $("#created_by").val(),
                         from_branch_id: $("#from_branch_id").val(),
                         sender_contact: $("#sender_contact").val(),
                         recipient_name: $("#recipient_name").val(),
@@ -236,8 +242,9 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                         doc_type: $("#doc_type").val(),
                         remarks: $("#remarks").val(),
                         status: '0',
-                        message: $("#dummy_name").val() + ' resend you a document from ' + $("#cfullname").val() ,
-                        cmessage: $("#dummy_name").val() + ' resend your document to ' + $("#rdummy_name").val() ,
+                        destined_to: $("#destined_to").val() + ',' + $("#sender_name").val() + ',',
+                        message: $("#dummy_name").val() + ' sent you a document from ' + $("#cfullname").val() ,
+                        cmessage: $("#dummy_name").val() + ' sent your document to ' + $("#rdummy_name").val() ,
                         file_name: $arr_resp[1]
                     },
                     cache: false,

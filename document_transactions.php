@@ -3,11 +3,11 @@
 	<div class="card card-outline card-primary">
 		<div class="card-header">
 			<div class="card-tools">
-				<a class="btn btn-block btn-sm btn-default btn-flat border-primary " href="./index.php?page=send_document"><i class="fa fa-plus"></i> Add New</a>
+				<!-- <a class="btn btn-block btn-sm btn-default btn-flat border-primary " href="./index.php?page=send_document"><i class="fa fa-plus"></i> Add New</a> -->
 			</div>
 		</div>
 		<div class="card-body">
-			<table class="table tabe-hover table-bordered" id="list">
+			<table class="table tabe-hover table-bordered" id="example">
 				<!-- <colgroup>
 					<col width="5%">
 					<col width="15%">
@@ -183,6 +183,32 @@
 </style>
 <script>
 	$(document).ready(function(){
+		function getUrlVars() {
+			var vars = [], hash;
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++)
+			{
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
+		$(document).ready(function() {
+			var searchTerm = getUrlVars()['search'];
+			var table = $('#example').DataTable( {
+			responsive: true,
+			paging: true,
+			searching: true,
+			lengthChange: true,
+			bInfo: true,
+			bSort: true,
+			search: {
+				search: searchTerm
+			}
+		});
+		});
+
 		$('#list').dataTable()
 		$('.view_parcel').click(function(){
 			uni_modal("Transaction Details","view_parcel.php?id="+$(this).attr('data-id'),"large")
@@ -266,24 +292,24 @@
 		})
 	}
 
-	function resend_parcel($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=update_parcel',
-			method:'POST',
-			data:{
-				id:$id,
-				status:0
-				},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Document successfully sent",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+	// function resend_parcel($id){
+	// 	start_load()
+	// 	$.ajax({
+	// 		url:'ajax.php?action=update_parcel',
+	// 		method:'POST',
+	// 		data:{
+	// 			id:$id,
+	// 			status:0
+	// 			},
+	// 		success:function(resp){
+	// 			if(resp==1){
+	// 				alert_toast("Document successfully sent",'success')
+	// 				setTimeout(function(){
+	// 					location.reload()
+	// 				},1500)
 
-				}
-			}
-		})
-	}
+	// 			}
+	// 		}
+	// 	})
+	// }
 </script>
