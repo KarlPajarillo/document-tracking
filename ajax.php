@@ -91,6 +91,11 @@ if($action == 'update_parcel'){
 	if($save)
 		echo $save;
 }
+if($action == 'update_notif'){
+	$update = $crud->update_notif();
+	if($update)
+		echo $update;
+}
 if($action == 'get_parcel_heistory'){
 	$get = $crud->get_parcel_heistory();
 	if($get)

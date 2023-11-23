@@ -257,7 +257,7 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                         alert_toast('Document successfully sent',"success");
                         setTimeout(function(){
                         location.href = 'index.php?page=document_transactions';
-                        },2000)
+                        })
 
                     }
                         }

@@ -57,7 +57,7 @@
 					alert_toast('Data successfully saved',"success");
 					setTimeout(function(){
               location.href = 'index.php?page=department_list'
-					},2000)
+					})
 				}
 			}
 		})

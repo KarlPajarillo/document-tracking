@@ -250,7 +250,7 @@ $type = $conn->query("SELECT * FROM users where id = ".$recipient_name)->fetch_a
                         alert_toast('Document successfully sent',"success");
                         setTimeout(function(){
                         location.href = 'index.php?page=document_transactions';
-                        },2000)
+                        })
 
                     }
                         }

@@ -118,7 +118,7 @@
 					alert_toast('Data successfully saved',"success");
 					setTimeout(function(){
               location.href = 'index.php?page=user_list'
-					},2000)
+					})
 				}else if(resp == 2){
           $('#msg').html('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> Email already exist.</div>')
           end_load()

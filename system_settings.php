@@ -73,7 +73,7 @@
 					alert_toast('Data successfully saved',"success");
 					setTimeout(function(){
               location.reload()
-					},2000)
+					})
 				}
 			}
 		})

@@ -189,7 +189,7 @@ foreach($qry as $k => $v){
             alert_toast('Document successfully sent',"success");
             setTimeout(function(){
               location.href = 'index.php?page=document_transactions';
-            },2000)
+            })
 
         }
 			}

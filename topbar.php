@@ -31,19 +31,19 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
               <span class="badge badge-danger" style="font-size: 10px; vertical-align: top; margin-left: -10px"><?php echo $numrows ?></span>
           <?php endif; ?>
         </div>
-        <div class="dropdown-menu" style="max-width: 500px;width:500px">
+        <div class="dropdown-menu notif-dropdown">
           <?php 
             $redirect_to = ($_SESSION['login_type'] == 5 ? 'created_transactions' : 'document_transactions');
             $qry = $conn->query("SELECT n.*, p.destined_to from notifications n inner join parcels p on n.reference_number = p.reference_number where n.user_id = {$_SESSION['login_id']} order by  unix_timestamp(n.date_created) desc ");
               while($row= $qry->fetch_assoc()){
                 if(!in_array($_SESSION['login_id'], explode(',,', substr($row['destined_to'], 1, -1)))){
                   if($row['status']=='unread'){
-                    echo '<a class="dropdown-item" href="./index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                    echo '<a class="dropdown-item notif unread" data-id="'.$row['id'].'" data-to="index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
                   } else {
-                    echo '<a class="dropdown-item" style="opacity:50%" href="./index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                    echo '<a class="dropdown-item notif read" data-id="'.$row['id'].'" data-to="index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
                   }
                 } else {
-                  echo '<a class="dropdown-item" style="opacity:50%" href="./index.php?page=files_received&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                  echo '<a class="dropdown-item notif read" data-id="'.$row['id'].'" data-to="index.php?page=files_received&search='.$row['reference_number'].'">'.$row['message'].'</a>';
                 }
                 
               }
@@ -68,8 +68,55 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
     </ul>
   </nav>
   <!-- /.navbar -->
+  <style>
+    .notif-dropdown{
+      right: -100px !important;
+      background:#f0f0f5;
+      border-radius: 0 0 10px 10px;
+      border:1px solid gray;
+      top:46px;
+      max-width: 500px;
+      width: 500px;
+    }
+
+    .notif:hover{
+      background: lightgray;
+    }
+
+    .read{
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .unread{
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
   <script>
      $('#manage_account').click(function(){
         uni_modal('Manage Account','manage_user.php?id=<?php echo $_SESSION['login_id'] ?>')
       })
+
+    $('.notif').click(function(){
+      start_load()
+      $.ajax({
+        url:'ajax.php?action=update_notif',
+        method:'POST',
+        data:{
+          id:$(this).attr('data-id'),
+          status:'read',
+          goto: $(this).attr('data-to')
+          },
+        success:function(resp){
+          if(resp!=0){
+            // alert_toast("Document successfully sent",'success')
+            setTimeout(function(){
+              location.href = resp;
+            })
+
+          }
+        }
+      })
+    })
   </script>

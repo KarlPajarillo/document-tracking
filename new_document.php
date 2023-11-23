@@ -94,7 +94,7 @@
                     alert_toast('New document successfully saved',"success");
 					setTimeout(function(){
                         location.href = 'index.php?page=document_list'
-					},2000)
+					})
 				}else if(resp == 2){
                     alert_toast('Password is incorrect.',"error");
                     $('#msg').html('<div class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> Password is incorrect.</div>')

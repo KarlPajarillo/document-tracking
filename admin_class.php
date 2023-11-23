@@ -373,6 +373,14 @@ Class Action {
 		if($update && $save)
 			return 1;  
 	}
+	function update_notif(){
+		extract($_POST);
+		$update = $this->db->query("UPDATE notifications set status= '".$status."' where id = $id");
+		if($update)
+			return $goto;
+		else
+			return 0;  
+	}
 	function get_user_data(){
 		extract($_GET);
 		$user = $this->db->query("SELECT * FROM users  where id = $id");

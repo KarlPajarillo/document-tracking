@@ -100,7 +100,56 @@ if($_SESSION['login_type'] != 1)
         </div>
           
 <?php endif; ?>
-<?php if($_SESSION['login_type'] != 5): ?>
+<?php if($_SESSION['login_type'] == 4): ?>
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Transactions per Docs</h1>
+          </div><!-- /.col -->
+      </div><!-- /.row -->
+      <hr class="border-primary">
+      <div class="row">
+            <?php 
+              $qry = $conn->query("SELECT * FROM documents");
+              foreach($qry as $key => $value):
+            ?>
+              <div class="col-4 col-sm-6 col-md-6" style="font-size:18px">
+                <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+                  <li class="nav-item" style="border: solid 2px lightgrey">
+                    <a href="#" class="nav-link nav-edit_user">
+                      <i class="nav-icon fas fa-folder"></i>
+                      <p>
+                        <?php echo $value['doc_name'] ?>
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <?php
+                        $qry = $conn->query("SELECT * FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']);
+                        foreach($qry as $key => $value):
+                      ?>
+                        <li class="nav-item">
+                          <a href="./" class="nav-link nav-new_user tree-item">
+                            <i class="fas fa-angle-right nav-icon"></i>
+                            <p>Created</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="./" class="nav-link nav-user_list tree-item">
+                            <i class="fas fa-angle-right nav-icon"></i>
+                            <p>Approved</p>
+                          </a>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+          <?php endforeach; ?>
+      </div>
+    </div><!-- /.container-fluid -->
+</div>
 <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
