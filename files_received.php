@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="card-body">
-			<table class="table tabe-hover table-bordered" id="list">
+			<table class="table tabe-hover table-bordered" id="example">
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
@@ -120,6 +120,32 @@
 </style>
 <script>
 	$(document).ready(function(){
+		function getUrlVars() {
+			var vars = [], hash;
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++)
+			{
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
+		$(document).ready(function() {
+			var searchTerm = getUrlVars()['search'];
+			var table = $('#example').DataTable( {
+			responsive: true,
+			paging: true,
+			searching: true,
+			lengthChange: true,
+			bInfo: true,
+			bSort: true,
+			search: {
+				search: searchTerm
+			}
+		});
+		});
+
 		$('#list').dataTable()
 		$('.view_parcel').click(function(){
 			uni_modal("Parcel's Details","view_parcel.php?id="+$(this).attr('data-id'),"large")

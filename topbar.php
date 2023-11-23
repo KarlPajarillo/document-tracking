@@ -1,6 +1,6 @@
 <?php include 'db_connect.php' ;
 
-$numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ")->num_rows;
+$numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} and status = 'unread' order by  unix_timestamp(date_created) desc ")->num_rows;
 ?>
 
 <!-- Navbar -->
@@ -33,12 +33,20 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
         </div>
         <div class="dropdown-menu" style="max-width: 500px;width:500px">
           <?php 
-            $qry = $conn->query("SELECT * from notifications where user_id = {$_SESSION['login_id']} order by  unix_timestamp(date_created) desc ");
-              while($row= $qry->fetch_assoc()):
-          ?>
-            <a class="dropdown-item" href="" id=""> <?php echo $row['message'] ?></a>
-          <?php 
-            endwhile; 
+            $redirect_to = ($_SESSION['login_type'] == 5 ? 'created_transactions' : 'document_transactions');
+            $qry = $conn->query("SELECT n.*, p.destined_to from notifications n inner join parcels p on n.reference_number = p.reference_number where n.user_id = {$_SESSION['login_id']} order by  unix_timestamp(n.date_created) desc ");
+              while($row= $qry->fetch_assoc()){
+                if(!in_array($_SESSION['login_id'], explode(',,', substr($row['destined_to'], 1, -1)))){
+                  if($row['status']=='unread'){
+                    echo '<a class="dropdown-item" href="./index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                  } else {
+                    echo '<a class="dropdown-item" style="opacity:50%" href="./index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                  }
+                } else {
+                  echo '<a class="dropdown-item" style="opacity:50%" href="./index.php?page=files_received&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                }
+                
+              }
           ?>
         </div>
       </li>
