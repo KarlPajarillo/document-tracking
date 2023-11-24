@@ -25,10 +25,10 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-  	 <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
-	    <div class="toast-body text-white">
-	    </div>
-	  </div>
+    <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body text-white">
+      </div>
+    </div>
     <div id="toastsContainerTopRight" class="toasts-top-right fixed"></div>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -112,6 +112,7 @@
       </div>
     </div>
   </div>
+  <div style="height:100vh"></div>
   </div>
   <!-- /.content-wrapper -->
 

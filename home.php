@@ -109,89 +109,190 @@ if($_SESSION['login_type'] != 1)
           </div><!-- /.col -->
       </div><!-- /.row -->
       <hr class="border-primary">
-      <div class="row">
-            <?php 
-              $qry = $conn->query("SELECT * FROM documents");
-              foreach($qry as $key => $value):
-            ?>
-              <div class="col-4 col-sm-6 col-md-6" style="font-size:18px">
-                <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
-                  <li class="nav-item" style="border: solid 2px lightgrey">
-                    <a href="#" class="nav-link nav-edit_user">
-                      <i class="nav-icon fas fa-folder"></i>
-                      <p>
-                        <?php echo $value['doc_name'] ?>
-                        <i class="right fas fa-angle-left"></i>
-                      </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                      <?php
-                        $qry = $conn->query("SELECT * FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']);
-                        foreach($qry as $key => $value):
-                      ?>
-                        <li class="nav-item">
-                          <a href="./" class="nav-link nav-new_user tree-item">
-                            <i class="fas fa-angle-right nav-icon"></i>
-                            <p>Created</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="./" class="nav-link nav-user_list tree-item">
-                            <i class="fas fa-angle-right nav-icon"></i>
-                            <p>Approved</p>
-                          </a>
-                        </li>
-                      <?php endforeach; ?>
-                    </ul>
-                  </li>
-                </ul>
+          <?php 
+            $docs = $conn->query("SELECT * FROM documents");
+            foreach($docs as $key => $value):
+          ?>
+            <div class="row" id="main-menu">
+              <div>
+                <nav id="menu-area">
+                  <ul>
+                    <li id="menu-1">
+                      <a href="#" >
+                        <i class="nav-icon fas fa-folder"></i>
+                        <span>
+                          <?php echo $value['doc_name'] ?>
+                          <i class="right fas fa-angle-left"></i>
+                        </span>
+                      </a>
+                      <ul class="submenu-1">
+                        <?php
+                          // $qry = $conn->query("SELECT * FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']);
+                          // foreach($qry as $key => $value):
+                        ?>
+                        <?php 
+                          // for created docs per user
+                          // $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as name FROM users WHERE branch_id = ".$_SESSION['login_branch_id']." and id != ".$_SESSION['login_id']);
+                          // foreach($qry as $key => $value):
+                        ?>
+                          <li class="">
+                            <a href="#">
+                              <i class="fas fa-angle-right nav-icon"></i>
+                              <span>Created</span>
+                            </a>
+                            <ul class="submenu-2">
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                            </ul>
+                          </li>
+                          <li class="">
+                            <a href="#" class="">
+                              <i class="fas fa-angle-right nav-icon"></i>
+                              <span>Approved</span>
+                            </a>
+                            <ul class="submenu-2">
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                            </ul>
+                          </li>
+                        <?php //endforeach; ?>
+                      </ul>
+                    </li>
+                  </ul>
+                </nav>
               </div>
-          <?php endforeach; ?>
-      </div>
-    </div><!-- /.container-fluid -->
-</div>
-<div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Your faculty's transactions</h1>
-          </div><!-- /.col -->
-      </div><!-- /.row -->
-      <hr class="border-primary">
-      <div class="row">
-            <?php 
-              $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as name FROM users WHERE branch_id = ".$_SESSION['login_branch_id']." and id != ".$_SESSION['login_id']);
-              foreach($qry as $key => $value):
-            ?>
-              <div class="col-4 col-sm-6 col-md-3" style="font-size:18px">
-                <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
-                  <li class="nav-item" style="border: solid 2px lightgrey">
-                    <a href="#" class="nav-link nav-edit_user">
-                      <!-- <i class="nav-icon fas fa-users"></i> -->
-                      <p>
-                        <?php echo $value['name'] ?>
-                        <i class="right fas fa-angle-left"></i>
-                      </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="./" class="nav-link nav-new_user tree-item">
-                          <i class="fas fa-angle-right nav-icon"></i>
-                          <p>Created</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="./" class="nav-link nav-user_list tree-item">
-                          <i class="fas fa-angle-right nav-icon"></i>
-                          <p>Approved</p>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-          <?php endforeach; ?>
-      </div>
+          </div>
+        <?php endforeach; ?>
     </div><!-- /.container-fluid -->
 </div>
 <?php endif; ?>
+<style>
+  #main-menu{
+    float: left;
+    height: 60px;
+    line-height: 20px;
+    width: 100%;
+  }
+  #main-menu>div{
+    width: 100%;
+    /* min-width: 20%;
+    max-width: 50%; */
+  }
+  nav#menu-area{
+    margin: 0 auto;
+    padding: 0 15px;
+    position: relative;
+    background: #212529;
+    width: 100%;
+  }
+  nav#menu-area ul li{
+    background: #f8f9fa;
+    border: 1px solid #343a40;
+    float: left;
+    position: relative;
+    font-size: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  nav#menu-area ul li a{
+    color: #343a40;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 60px;
+  }
+  nav#menu-area ul li:hover>a, nav#menu-area ul li:hover{
+    color: #fff;
+    background: #555555;
+    width: 50%;
+    transition: width 0.1s 0.1s ease-out;
+  }
+  nav#menu-area ul li:hover>a>span>i{
+    transform: rotate(-90deg);
+  }
+  nav#menu-area ul li ul.submenu-1{
+    z-index: 1;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -182px;
+    top: -1px;
+    background: #212529;
+    width: 30%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.1s 0.1 linear;
+  }
+  nav#menu-area ul li ul.submenu-1 li{
+    border: 1px solid #343a40;
+    clear: both;
+    margin-top: -15px;
+    padding: 0;
+    width: 100%;
+    transition: opacity 0.15s 0.15s ease-out, margin 0.3s 0.1s ease-out;
+  }
+  nav#menu-area ul li:hover ul.submenu-1{
+    opacity: 1;
+    visibility: visible;
+  }
+  nav#menu-area ul li:hover ul.submenu-1 li{
+    margin-top: 0;
+    opacity: 1;
+  }
+  nav#menu-area ul li ul.submenu-1 li ul.submenu-2{
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 80%;
+    top: -1px;
+    background: #212529;
+    width: 200%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s 0.01s ease-in-out, left 0.2s 0.1s ease-out, visibility 0.1s 0.1s linear;
+  }
+  ul.submenu-1 li ul.submenu-2{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    clear: both;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    opacity: 1;
+  }
+  nav#menu-area ul li ul.submenu-1 li:hover ul.submenu-2{
+    opacity: 1;
+    left: 100%;
+    visibility: visible;
+    max-height:400px;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+</style>
+<script>
+  $(document).ready(function(){
+    $('.nav-link.dropper').click(function(){
+        $('.nav-link.dropper').addClass('menu-is-opening')
+        $('.nav-drop').addClass('nav-dropped')
+    })
+  })
+
+</script>
