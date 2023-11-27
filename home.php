@@ -112,6 +112,11 @@ if($_SESSION['login_type'] != 1)
           <?php 
             $docs = $conn->query("SELECT * FROM documents");
             foreach($docs as $key => $value):
+              $users_c = $conn->query("SELECT p.created_by, p.file_name,  u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']);
+              $users_a = $conn->query("SELECT p.created_by, p.file_name, u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']." and status = '1'");
+              $creates = $users_c->num_rows;
+              $approves = $users_a->num_rows;
+              $total = $creates + $approves;
           ?>
             <div class="row" id="main-menu">
               <div>
@@ -120,16 +125,12 @@ if($_SESSION['login_type'] != 1)
                     <li id="menu-1">
                       <a href="#" >
                         <i class="nav-icon fas fa-folder"></i>
+                        <?php echo $value['doc_name'].' &emsp;<i class="fa fa-file mr-2">&nbsp;'.$total.'</i>' ?>
                         <span>
-                          <?php echo $value['doc_name'] ?>
                           <i class="right fas fa-angle-left"></i>
                         </span>
                       </a>
                       <ul class="submenu-1">
-                        <?php
-                          // $qry = $conn->query("SELECT * FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']);
-                          // foreach($qry as $key => $value):
-                        ?>
                         <?php 
                           // for created docs per user
                           // $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as name FROM users WHERE branch_id = ".$_SESSION['login_branch_id']." and id != ".$_SESSION['login_id']);
@@ -138,32 +139,41 @@ if($_SESSION['login_type'] != 1)
                           <li class="">
                             <a href="#">
                               <i class="fas fa-angle-right nav-icon"></i>
-                              <span>Created</span>
+                              <span>Created</span> &emsp;
+                              <i class="fa fa-user mr-2"></i><?php echo $creates ?>
                             </a>
                             <ul class="submenu-2">
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                              <?php
+                                foreach($users_c as $k => $val):
+                                  if($creates != 0):
+                              ?>
+                                <li><a href="assets/uploads/<?php echo $val['file_name'] ?>" target="blank"><i class="fa fa-user mr-2"></i><?php echo $val['firstname']." ".$val['lastname']." -- ".$val['file_name'] ?></a></li>
+                              <?php endif; endforeach;?>
+                              <?php
+                                if($creates == 0):
+                              ?>
+                                <li><a href="#"><i class="fa fa-user mr-2"></i>NO FILES AVAILABLE!!!</a></li>
+                              <?php endif;?>
                             </ul>
                           </li>
                           <li class="">
                             <a href="#" class="">
                               <i class="fas fa-angle-right nav-icon"></i>
-                              <span>Approved</span>
+                              <span>Approved</span> &emsp;
+                              <i class="fa fa-user mr-2"></i><?php echo $approves ?>
                             </a>
                             <ul class="submenu-2">
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
-                              <li><a href="#"><i class="fa fa-user mr-2"></i>test</a></li>
+                            <?php
+                                foreach($users_a as $k => $val):
+                                  if($approves != 0):
+                              ?>
+                                <li><a href="assets/uploads/<?php echo $val['file_name'] ?>" target="blank"><i class="fa fa-user mr-2"></i><?php echo $val['firstname']." ".$val['lastname']." -- ".$val['file_name'] ?></a></li>
+                              <?php endif; endforeach;?>
+                              <?php
+                                if($approves == 0):
+                              ?>
+                                <li><a href="#"><i class="fa fa-user mr-2"></i>NO FILES AVAILABLE!!!</a></li>
+                              <?php endif;?>
                             </ul>
                           </li>
                         <?php //endforeach; ?>
@@ -212,13 +222,22 @@ if($_SESSION['login_type'] != 1)
   nav#menu-area ul li a{
     color: #343a40;
     text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     display: inline-block;
     line-height: 60px;
   }
-  nav#menu-area ul li:hover>a, nav#menu-area ul li:hover{
+  nav#menu-area ul li:hover>a{
     color: #fff;
+    text-align: left;
+    text-overflow: hidden;
+    margin-left: 20px;
+    width: 100%;
+  }
+  nav#menu-area ul li:hover{
     background: #555555;
-    width: 50%;
+    text-overflow: hidden;
+    width: 25%;
     transition: width 0.1s 0.1s ease-out;
   }
   nav#menu-area ul li:hover>a>span>i{
@@ -234,7 +253,7 @@ if($_SESSION['login_type'] != 1)
     right: -182px;
     top: -1px;
     background: #212529;
-    width: 30%;
+    width: 50%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-out, visibility 0.1s 0.1 linear;
@@ -255,6 +274,9 @@ if($_SESSION['login_type'] != 1)
     margin-top: 0;
     opacity: 1;
   }
+  nav#menu-area ul li:hover ul.submenu-1 li a{
+    width: 100%;
+  }
   nav#menu-area ul li ul.submenu-1 li ul.submenu-2{
     float: left;
     list-style: none;
@@ -264,7 +286,7 @@ if($_SESSION['login_type'] != 1)
     left: 80%;
     top: -1px;
     background: #212529;
-    width: 200%;
+    width: 400%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s 0.01s ease-in-out, left 0.2s 0.1s ease-out, visibility 0.1s 0.1s linear;
@@ -282,6 +304,7 @@ if($_SESSION['login_type'] != 1)
     opacity: 1;
     left: 100%;
     visibility: visible;
+    text-align: center !important;
     max-height:400px;
     overflow: hidden;
     overflow-y: scroll;
