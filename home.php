@@ -100,6 +100,99 @@ if($_SESSION['login_type'] != 1)
         </div>
           
 <?php endif; ?>
+<?php if($_SESSION['login_type'] == 3 || $_SESSION['login_type'] == 2 ): ?>
+  <?php 
+      $branches = $conn->query("SELECT * FROM branches");
+      foreach($branches as $bkey => $bvalue):
+  ?>
+
+  <div class="content-header" style="display:block">
+      <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Transactions per Docs ( <?php echo $bvalue['department'] ?> )</h1>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <hr class="border-primary">
+            <?php 
+              $docs = $conn->query("SELECT * FROM documents");
+              foreach($docs as $key => $value):
+                $users_c = $conn->query("SELECT p.created_by, p.file_name,  u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$bvalue['id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']);
+                $users_a = $conn->query("SELECT p.created_by, p.file_name, u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$bvalue['id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']." and status = '1'");
+                $creates = $users_c->num_rows;
+                $approves = $users_a->num_rows;
+                $total = $creates + $approves;
+            ?>
+              <div class="row" id="main-menu">
+                <div>
+                  <nav id="menu-area">
+                    <ul>
+                      <li id="menu-1">
+                        <a href="#" >
+                          <i class="nav-icon fas fa-folder"></i>
+                          <?php echo $value['doc_name'].' &emsp;&nbsp;'.$total ?>
+                          <span>
+                            <i class="right fas fa-angle-left"></i>
+                          </span>
+                        </a>
+                        <ul class="submenu-1">
+                          <?php 
+                            // for created docs per user
+                            // $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as name FROM users WHERE branch_id = ".$_SESSION['login_branch_id']." and id != ".$_SESSION['login_id']);
+                            // foreach($qry as $key => $value):
+                          ?>
+                            <li class="">
+                              <a href="#">
+                                <i class="fas fa-angle-right nav-icon"></i>
+                                <span>Created</span> &emsp;
+                                <i class="fa fa-user mr-2"></i><?php echo $creates ?>
+                              </a>
+                              <ul class="submenu-2">
+                                <?php
+                                  foreach($users_c as $k => $val):
+                                    if($creates != 0):
+                                ?>
+                                  <li><a href="assets/uploads/<?php echo $val['file_name'] ?>" target="blank"><i class="fa fa-user mr-2"></i><?php echo $val['firstname']." ".$val['lastname']." -- ".$val['file_name'] ?></a></li>
+                                <?php endif; endforeach;?>
+                                <?php
+                                  if($creates == 0):
+                                ?>
+                                  <li><a href="#"><i class="fa fa-user mr-2"></i>NO FILES AVAILABLE!!!</a></li>
+                                <?php endif;?>
+                              </ul>
+                            </li>
+                            <li class="">
+                              <a href="#" class="">
+                                <i class="fas fa-angle-right nav-icon"></i>
+                                <span>Approved</span> &emsp;
+                                <i class="fa fa-user mr-2"></i><?php echo $approves ?>
+                              </a>
+                              <ul class="submenu-2">
+                              <?php
+                                  foreach($users_a as $k => $val):
+                                    if($approves != 0):
+                                ?>
+                                  <li><a href="assets/uploads/<?php echo $val['file_name'] ?>" target="blank"><i class="fa fa-user mr-2"></i><?php echo $val['firstname']." ".$val['lastname']." -- ".$val['file_name'] ?></a></li>
+                                <?php endif; endforeach;?>
+                                <?php
+                                  if($approves == 0):
+                                ?>
+                                  <li><a href="#"><i class="fa fa-user mr-2"></i>NO FILES AVAILABLE!!!</a></li>
+                                <?php endif;?>
+                              </ul>
+                            </li>
+                          <?php //endforeach; ?>
+                        </ul>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+            </div>
+          <?php endforeach; ?>
+      </div><!-- /.container-fluid -->
+  </div>
+  <?php endforeach; ?>
+<?php endif; ?>
 <?php if($_SESSION['login_type'] == 4): ?>
 <div class="content-header">
     <div class="container-fluid">
@@ -215,12 +308,13 @@ if($_SESSION['login_type'] != 1)
     list-style: none;
     margin: 0;
     padding: 0;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     width: 100%;
   }
   nav#menu-area ul li a{
     color: #343a40;
+    margin-left: 3%;
     text-decoration: none;
     white-space: nowrap;
     text-overflow: ellipsis;
