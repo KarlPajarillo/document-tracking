@@ -7,8 +7,8 @@ if($_SESSION['login_type'] != 1)
 $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents order BY doclength");
 ?>
 <!-- Info boxes -->
-<!-- <?php if($_SESSION['login_type'] == 1): ?>
-<div id="admin">
+<?php if($_SESSION['login_type'] == 1): ?>
+<!-- <div id="admin">
   <div class="row">
     <div class="col-md-12">
       <h3>Hello Admin!</h3>
