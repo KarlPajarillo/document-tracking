@@ -3,12 +3,21 @@
 $twhere ="";
 if($_SESSION['login_type'] != 1)
   $twhere = "  ";
+
+$docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents order BY doclength");
 ?>
 <!-- Info boxes -->
-<?php if($_SESSION['login_type'] == 1): ?>
+<!-- <?php if($_SESSION['login_type'] == 1): ?>
+<div id="admin">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Hello Admin!</h3>
+    </div>
+  </div>
+</div> -->
         <div class="row">
           <div class="col-12 col-sm-6 col-md-4">
-            <div class="small-box bg-light shadow-sm border">
+            <a href="./index.php?page=department_list" class="small-box bg-light shadow-sm border">
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM branches")->num_rows; ?></h3>
 
@@ -17,10 +26,10 @@ if($_SESSION['login_type'] != 1)
               <div class="icon">
                 <i class="fa fa-building"></i>
               </div>
-            </div>
+            </a>
           </div>
            <div class="col-12 col-sm-6 col-md-4">
-            <div class="small-box bg-light shadow-sm border">
+            <a href="./index.php?page=user_list" class="small-box bg-light shadow-sm border">
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM users where type != 1")->num_rows; ?></h3>
 
@@ -29,7 +38,19 @@ if($_SESSION['login_type'] != 1)
               <div class="icon">
                 <i class="fa fa-users"></i>
               </div>
-            </div>
+            </a>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <a href="./index.php?page=document_transactions" class="small-box bg-light shadow-sm border">
+              <div class="inner">
+                <h3><?php echo $conn->query("SELECT * FROM parcels")->num_rows; ?></h3>
+
+                <p>All Transactions</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-boxes"></i>
+              </div>
+            </a>
           </div>
           <hr>
           <?php 
@@ -38,7 +59,7 @@ if($_SESSION['login_type'] != 1)
                foreach($status_arr as $k =>$v):
           ?>
           <div class="col-12 col-sm-6 col-md-4">
-            <div class="small-box bg-light shadow-sm border">
+            <a href="./index.php?page=document_transactions&s=<?php echo $k?>" class="small-box bg-light shadow-sm border">
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM parcels where status = {$k} ")->num_rows; ?></h3>
 
@@ -47,7 +68,7 @@ if($_SESSION['login_type'] != 1)
               <div class="icon">
                 <i class="fa fa-boxes"></i>
               </div>
-            </div>
+            </a>
           </div>
             <?php endforeach; ?>
         </div>
@@ -100,13 +121,13 @@ if($_SESSION['login_type'] != 1)
         </div>
           
 <?php endif; ?>
-<?php if($_SESSION['login_type'] == 3 || $_SESSION['login_type'] == 2 ): ?>
+<?php if($_SESSION['login_type'] <= 3 ): ?>
   <?php 
       $branches = $conn->query("SELECT * FROM branches");
       foreach($branches as $bkey => $bvalue):
   ?>
-
-  <div class="content-header" style="display:block">
+<div class="row mb-2">
+  <div class="content-header col-sm-12" style="display:block">
       <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -115,7 +136,6 @@ if($_SESSION['login_type'] != 1)
         </div><!-- /.row -->
         <hr class="border-primary">
             <?php 
-              $docs = $conn->query("SELECT * FROM documents");
               foreach($docs as $key => $value):
                 $users_c = $conn->query("SELECT p.created_by, p.file_name,  u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$bvalue['id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']);
                 $users_a = $conn->query("SELECT p.created_by, p.file_name, u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$bvalue['id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']." and status = '1'");
@@ -130,7 +150,7 @@ if($_SESSION['login_type'] != 1)
                       <li id="menu-1">
                         <a href="#" >
                           <i class="nav-icon fas fa-folder"></i>
-                          <?php echo $value['doc_name'].' &emsp;&nbsp;'.$total ?>
+                          <?php echo $value['doc_name'].' &emsp;<i class="fa fa-file mr-2">&nbsp;'.$total.'</i>' ?>
                           <span>
                             <i class="right fas fa-angle-left"></i>
                           </span>
@@ -191,6 +211,7 @@ if($_SESSION['login_type'] != 1)
           <?php endforeach; ?>
       </div><!-- /.container-fluid -->
   </div>
+</div>
   <?php endforeach; ?>
 <?php endif; ?>
 <?php if($_SESSION['login_type'] == 4): ?>
@@ -203,7 +224,6 @@ if($_SESSION['login_type'] != 1)
       </div><!-- /.row -->
       <hr class="border-primary">
           <?php 
-            $docs = $conn->query("SELECT * FROM documents");
             foreach($docs as $key => $value):
               $users_c = $conn->query("SELECT p.created_by, p.file_name,  u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']);
               $users_a = $conn->query("SELECT p.created_by, p.file_name, u.* FROM parcels p inner join users u on p.created_by = u.id inner join branches b on u.branch_id = b.id WHERE u.branch_id = ".$_SESSION['login_branch_id']." and u.id != ".$_SESSION['login_id']." and doc_type = ".$value['id']." and status = '1'");
@@ -281,6 +301,12 @@ if($_SESSION['login_type'] != 1)
 </div>
 <?php endif; ?>
 <style>
+  #admin>div{
+    text-align: center;
+    color: #fff;
+    background: #555555;
+    padding: 50px;
+  }
   #main-menu{
     float: left;
     height: 60px;
@@ -308,13 +334,12 @@ if($_SESSION['login_type'] != 1)
     list-style: none;
     margin: 0;
     padding: 0;
-    text-align: left;
+    text-align: center;
     text-transform: uppercase;
     width: 100%;
   }
   nav#menu-area ul li a{
     color: #343a40;
-    margin-left: 3%;
     text-decoration: none;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -331,7 +356,7 @@ if($_SESSION['login_type'] != 1)
   nav#menu-area ul li:hover{
     background: #555555;
     text-overflow: hidden;
-    width: 25%;
+    width: 30%;
     transition: width 0.1s 0.1s ease-out;
   }
   nav#menu-area ul li:hover>a>span>i{

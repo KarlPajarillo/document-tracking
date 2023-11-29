@@ -125,7 +125,7 @@
                   </a>
                 </li>
               <?php endforeach; ?>
-              <?php if($_SESSION['login_type'] != 5): ?>
+              <?php if($_SESSION['login_type'] != 5 && $_SESSION['login_type'] != 1 ): ?>
                 <li class="nav-item">
                   <a href="./index.php?page=files_received" class="nav-link nav-files_received tree-item">
                     <i class="fas fa-angle-right nav-icon"></i>
