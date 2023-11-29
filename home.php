@@ -18,36 +18,36 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
         <div class="row">
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=department_list" class="small-box bg-light shadow-sm border">
-              <div class="inner">
+              <div class="inner" style="background:black;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM branches")->num_rows; ?></h3>
 
                 <p>Department's</p>
               </div>
-              <div class="icon">
+              <div class="icon" style="color:white">
                 <i class="fa fa-building"></i>
               </div>
             </a>
           </div>
            <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=user_list" class="small-box bg-light shadow-sm border">
-              <div class="inner">
+              <div class="inner" style="background:yellow;color:black">
                 <h3><?php echo $conn->query("SELECT * FROM users where type != 1")->num_rows; ?></h3>
 
                 <p>User's</p>
               </div>
-              <div class="icon">
+              <div class="icon" style="color:black">
                 <i class="fa fa-users"></i>
               </div>
             </a>
           </div>
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=document_transactions" class="small-box bg-light shadow-sm border">
-              <div class="inner">
+              <div class="inner" style="background:blue;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM parcels")->num_rows; ?></h3>
 
                 <p>All Transactions</p>
               </div>
-              <div class="icon">
+              <div class="icon" style="color:white">
                 <i class="fa fa-boxes"></i>
               </div>
             </a>
@@ -56,16 +56,17 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
           <?php 
               // $status_arr = array("Item Accepted by Courier","Collected","Shipped","In-Transit","Arrived At Destination","Out for Delivery","Ready to Pickup","Delivered","Picked-up","Unsuccessfull Delivery Attempt");
               $status_arr = array("Sent","Approved", "Denied");
-               foreach($status_arr as $k =>$v):
+              $color_arr = array("darkviolet","green", "red");
+              foreach($status_arr as $k =>$v):
           ?>
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=document_transactions&s=<?php echo $k?>" class="small-box bg-light shadow-sm border">
-              <div class="inner">
+              <div class="inner" style="background:<?php echo $color_arr[$k] ?>;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM parcels where status = {$k} ")->num_rows; ?></h3>
 
                 <p><?php echo $v ?></p>
               </div>
-              <div class="icon">
+              <div class="icon" style="color:white">
                 <i class="fa fa-boxes"></i>
               </div>
             </a>
@@ -94,7 +95,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
                 <h3><?php echo $conn->query("SELECT * FROM parcels where created_by = ".$_SESSION['login_id']."")->num_rows; ?></h3>
                 <p>Created Transactions</p>
               </div>
-              <div class="icon">
+              <div class="icon" style="color:black">
                 <i class="fa fa-box"></i>
               </div>
             </a>
@@ -108,7 +109,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
           ?>
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="small-box bg-light shadow-sm border">
-              <div class="inner"  style="background:<?php echo $color_arr[$k] ?>;color:white">
+              <div class="inner" style="background:<?php echo $color_arr[$k] ?>;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM parcels where (sender_name = ".$_SESSION['login_id']." or recipient_name = ".$_SESSION['login_id']." or created_by = ".$_SESSION['login_id'].") and status = {$k} ")->num_rows; ?></h3>
 
                 <p><?php echo $v.' Transactions' ?></p>
