@@ -23,7 +23,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p>Department's</p>
               </div>
-              <div class="icon" style="color:white">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-building"></i>
               </div>
             </a>
@@ -35,7 +35,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p>User's</p>
               </div>
-              <div class="icon" style="color:black">
+              <div class="icon" style="color:black;opacity:50%">
                 <i class="fa fa-users"></i>
               </div>
             </a>
@@ -47,7 +47,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p>All Transactions</p>
               </div>
-              <div class="icon" style="color:white">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-boxes"></i>
               </div>
             </a>
@@ -66,7 +66,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p><?php echo $v ?></p>
               </div>
-              <div class="icon" style="color:white">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-boxes"></i>
               </div>
             </a>
@@ -83,7 +83,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p>All Transactions</p>
               </div>
-              <div class="icon" style="color:white">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-boxes"></i>
               </div>
             </a>
@@ -95,7 +95,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
                 <h3><?php echo $conn->query("SELECT * FROM parcels where created_by = ".$_SESSION['login_id']."")->num_rows; ?></h3>
                 <p>Created Transactions</p>
               </div>
-              <div class="icon" style="color:black">
+              <div class="icon" style="color:black;opacity:50%">
                 <i class="fa fa-box"></i>
               </div>
             </a>
@@ -114,7 +114,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
 
                 <p><?php echo $v.' Transactions' ?></p>
               </div>
-              <div class="icon" style="color:white">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-box"></i>
               </div>
             </a>
