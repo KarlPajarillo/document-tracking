@@ -34,7 +34,7 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
         <div class="dropdown-menu notif-dropdown">
           <?php 
             $redirect_to = ($_SESSION['login_type'] == 5 ? 'created_transactions' : 'document_transactions');
-            $qry = $conn->query("SELECT n.*, p.destined_to from notifications n inner join parcels p on n.reference_number = p.reference_number where n.user_id = {$_SESSION['login_id']} order by  unix_timestamp(n.date_created) desc ");
+            $qry = $conn->query("SELECT n.*, p.destined_to, p.status as pstatus from notifications n inner join parcels p on n.reference_number = p.reference_number where n.user_id = {$_SESSION['login_id']} order by  unix_timestamp(n.date_created) desc ");
               while($row= $qry->fetch_assoc()){
                 if(!in_array($_SESSION['login_id'], explode(',,', substr($row['destined_to'], 1, -1)))){
                   if($row['status']=='unread'){
@@ -43,7 +43,8 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
                     echo '<a class="dropdown-item notif read" data-id="'.$row['id'].'" data-to="index.php?page='.$redirect_to.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
                   }
                 } else {
-                  echo '<a class="dropdown-item notif read" data-id="'.$row['id'].'" data-to="index.php?page=files_received&search='.$row['reference_number'].'">'.$row['message'].'</a>';
+                  $redirection = ($row['pstatus'] == 2 ? 'document_transactions' : 'files_received');
+                  echo '<a class="dropdown-item notif read" data-id="'.$row['id'].'" data-to="index.php?page='.$redirection.'&search='.$row['reference_number'].'">'.$row['message'].'</a>';
                 }
                 
               }

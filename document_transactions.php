@@ -224,7 +224,8 @@
 			// _conf("Are you sure you want to confirm?","confirm_parcel",[$(this).attr('data-id')])
 		})
 		$('.deny_parcel').click(function(){
-			_conf("Are you sure you want to deny?","deny_parcel",[$(this).attr('data-id')])
+			uni_modal("Are you sure to deny?","deny_parcel.php?id="+$(this).attr('data-id'),"large")
+			// _conf("Are you sure you want to deny?","deny_parcel",[$(this).attr('data-id')])
 		})
 		$('.resend_parcel').click(function(){
 			uni_modal("","resend_parcel.php?id="+$(this).attr('data-id'),"large")
@@ -265,32 +266,31 @@
 					setTimeout(function(){
 						location.reload()
 					},1500)
-
 				}
 			}
 		})
 	}
 
-	function deny_parcel($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=update_parcel',
-			method:'POST',
-			data:{
-				id:$id,
-				status:2
-				},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Document successfully denied",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+	// function deny_parcel($id){
+	// 	start_load()
+	// 	$.ajax({
+	// 		url:'ajax.php?action=update_parcel',
+	// 		method:'POST',
+	// 		data:{
+	// 			id:$id,
+	// 			status:2
+	// 			},
+	// 		success:function(resp){
+	// 			if(resp==1){
+	// 				alert_toast("Document successfully denied",'success')
+	// 				setTimeout(function(){
+	// 					location.reload()
+	// 				},1500)
 
-				}
-			}
-		})
-	}
+	// 			}
+	// 		}
+	// 	})
+	// }
 
 	// function resend_parcel($id){
 	// 	start_load()

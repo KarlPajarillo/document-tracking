@@ -32,6 +32,14 @@ $branch = array();
 									View Document
 								</a>
 							</dd>
+							<?php if($status == 2): ?>
+								<dd>
+									<b>Reason for denial: </b>
+								</dd>
+								<dd style="color:red">
+									<?php echo $deny_message ?>
+								</dd>
+							<?php endif; ?>
 						</dl>
 					</div>
 				</div>

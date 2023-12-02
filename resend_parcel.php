@@ -94,7 +94,9 @@ $cfullname = $creator_info['firstname']. ' ' .$creator_info['lastname'];
                                     </div>
                                     <div class="col-md-6">
                                         <?php 
-                                            if($type == 2){
+                                            if($type == 5){
+                                                $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = ".$creator_info['branch_id']." and type = 4)" );
+                                            } elseif($type == 2){
                                                 $ruser = $conn->query("SELECT * FROM users where id = ".$created_by );
                                             } else{
                                                 $ruser = $conn->query("SELECT * FROM users where dlt = '1' and (branch_id = 0 and type = '".($type - 1)."')" );
