@@ -110,7 +110,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="remarks">Remarks</label>
+              <label for="remarks">Details</label>
               <input type="text" name="remarks" id="remarks" class="form-control form-control-lm" value="<?php echo isset($remarks) ? $remarks : '' ?>" required>
             </div>
           </div>

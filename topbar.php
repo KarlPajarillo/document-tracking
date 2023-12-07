@@ -56,7 +56,7 @@ $numrows = $conn->query("SELECT * from notifications where user_id = {$_SESSION[
           <span>
             <div class="d-felx badge-pill">
               <span class="fa fa-user mr-2" style="font-size: 18px;"></span>
-              <span style="font-size: 18px;"><b><?php echo ucwords($_SESSION['login_firstname']) ?></b></span>
+              <span style="font-size: 18px;"><b><?php echo ucwords($_SESSION['login_lastname'].', '.$_SESSION['login_firstname']) ?></b></span>
               <span class="fa fa-angle-down ml-2"></span>
             </div>
           </span>

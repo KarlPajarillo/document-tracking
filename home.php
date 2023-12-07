@@ -18,7 +18,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
         <div class="row">
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=department_list" class="small-box bg-light shadow-sm border">
-              <div class="inner" style="background:black;color:white">
+              <div class="inner" style="background:orange;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM branches")->num_rows; ?></h3>
 
                 <p>Department's</p>
@@ -30,12 +30,12 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
           </div>
            <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=user_list" class="small-box bg-light shadow-sm border">
-              <div class="inner" style="background:yellow;color:black">
+              <div class="inner" style="background:yellow;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM users where type != 1")->num_rows; ?></h3>
 
                 <p>User's</p>
               </div>
-              <div class="icon" style="color:black;opacity:50%">
+              <div class="icon" style="color:white;opacity:50%">
                 <i class="fa fa-users"></i>
               </div>
             </a>
@@ -91,11 +91,11 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
           <?php if($_SESSION['login_type'] == 5): ?>
            <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=created_transactions" class="small-box bg-light shadow-sm border">
-              <div class="inner" style="background:yellow">
+              <div class="inner" style="background:orange;color:white">
                 <h3><?php echo $conn->query("SELECT * FROM parcels where created_by = ".$_SESSION['login_id']."")->num_rows; ?></h3>
                 <p>Created Transactions</p>
               </div>
-              <div class="icon" style="color:black;opacity:50%">
+              <div class="icon" style="color:white;bg-white;opacity:50%">
                 <i class="fa fa-box"></i>
               </div>
             </a>
@@ -110,7 +110,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
           <div class="col-12 col-sm-6 col-md-4">
             <a href="./index.php?page=document_transactions&s=<?php echo $k ?>" class="small-box bg-light shadow-sm border">
               <div class="inner" style="background:<?php echo $color_arr[$k] ?>;color:white">
-                <h3><?php echo $conn->query("SELECT * FROM parcels where (sender_name = ".$_SESSION['login_id']." or recipient_name = ".$_SESSION['login_id']." or created_by = ".$_SESSION['login_id'].") and status = {$k} ")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM parcels where (sender_name = ".$_SESSION['login_id']." or recipient_name = ".$_SESSION['login_id']." or created_by = ".$_SESSION['login_id'].") and status = {$k} ")->num_rows; ?> </h3>
 
                 <p><?php echo $v.' Transactions' ?></p>
               </div>
@@ -133,7 +133,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
       <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Transactions per Docs ( <?php echo $bvalue['department'] ?> )</h1>
+              <h1 class="m-0">Transaction Documents ( <?php echo $bvalue['department'] ?> )</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
         <hr class="border-primary">
@@ -221,7 +221,7 @@ $docs = $conn->query("SELECT *, length(doc_name) as doclength FROM documents ord
     <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Transactions per Docs</h1>
+            <h1 class="m-0">Document Transactions</h1>
           </div><!-- /.col -->
       </div><!-- /.row -->
       <hr class="border-primary">
